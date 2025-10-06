@@ -62,8 +62,7 @@ const sidebar = [
     items: [
       {
         label: 'Python SDK',
-        // LAUNCH: check this works
-        link: 'https://openai.github.io/chatkit-python-sdk',
+        link: 'https://openai.github.io/chatkit-python',
       },
     ],
   },
@@ -71,7 +70,7 @@ const sidebar = [
 
 export default defineConfig({
   // LAUNCH: update
-  site: 'https://fantastic-funicular-pg5rm2q.pages.github.io/',
+  site: 'https://openai.github.io/chatkit-js',
 
   integrations: [
     starlight({
