@@ -69,7 +69,6 @@ const sidebar = [
 ];
 
 export default defineConfig({
-  // LAUNCH: update
   site: 'https://openai.github.io/chatkit-js',
 
   integrations: [
