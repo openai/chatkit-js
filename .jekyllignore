@@ -1,0 +1,2 @@
+# Ignore Astro docs sources so GitHub Pages' Jekyll runner skips them
+packages/docs/
