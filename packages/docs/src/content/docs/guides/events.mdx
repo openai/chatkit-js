@@ -1,0 +1,99 @@
+---
+title: Events
+description: Subscribe to ChatKit lifecycle events for errors, logging, and UI coordination.
+---
+
+import { TabItem, Tabs } from '@astrojs/starlight/components';
+
+ChatKit emits CustomEvents that mirror the same lifecycle hooks exposed through `useChatKit`. Use them to keep local UI, analytics, and background workflows aligned with what the assistant is doing.
+
+## Listening to events
+
+<Tabs syncKey="events-target">
+<TabItem label="React">
+
+```tsx
+import { ChatKit, useChatKit } from '@openai/chatkit-react';
+
+export function Inbox({ clientToken }: { clientToken: string }) {
+  const { control } = useChatKit({
+    api: { clientToken },
+    onThreadChange: ({ threadId }) => setActiveThread(threadId),
+    onResponseStart: () => setIsResponding(true),
+    onResponseEnd: () => setIsResponding(false),
+    onLog: ({ name, data }) => logAnalytics(name, data),
+  });
+
+  return <ChatKit control={control} className="h-[600px]" />;
+}
+```
+
+</TabItem>
+<TabItem label="Web component">
+
+```ts
+const chatkit = document.getElementById('my-chat') as OpenAIChatKit;
+
+chatkit.addEventListener('chatkit.thread.change', (event) => {
+  const { threadId } = event.detail;
+  setActiveThread(threadId);
+});
+
+chatkit.addEventListener('chatkit.response.start', () => {
+  setIsResponding(true);
+});
+
+chatkit.addEventListener('chatkit.response.end', () => {
+  setIsResponding(false);
+});
+```
+
+</TabItem>
+</Tabs>
+
+## Errors
+
+`chatkit.error` fires whenever ChatKit encounters a problem. Capture it to feed logs or telemetry.
+
+:::note
+Most emitted errors are scoped (for example, a failed attachment upload) and are often paired with a toast or inline notice inside ChatKit.
+:::
+
+```ts
+chatkit.addEventListener('chatkit.error', ({ detail }) => {
+  reportError(detail.error);
+});
+```
+
+When using React, pass `onError={({ error }) => ... }` to `useChatKit` for the same effect.
+
+## Logs
+
+Use `chatkit.log` (or `onLog`) for verbose, structured diagnostics.
+
+```ts
+chatkit.addEventListener('chatkit.log', ({ detail }) => {
+  console.debug('[chatkit]', detail.name, detail.data);
+});
+```
+
+This channel is intentionally noisier than the error events, surfacing granular lifecycle details that help with debugging and operational monitoring.
+
+## Other events
+
+- `chatkit.response.start` / `chatkit.response.end`: emitted when the assistant begins or finishes streaming a response.
+- `chatkit.thread.load.start` / `chatkit.thread.load.end`: emitted while ChatKit loads conversation history for a thread.
+- `chatkit.thread.change`: dispatched whenever the active thread ID updates; pair it with `initialThread` when persisting sessions.
+
+Track whether ChatKit is responding or loading before invoking imperative helpers. Methods such as `sendUserMessage`, `focusComposer`, and `setThreadId` can reject if called during a response or thread load.
+
+
+
+<br />
+<hr />
+<br />
+
+<small>
+ChatKit emits internal telemetry events to monitor runtime health and diagnose implementation issues.
+These events never include user-entered content, agent-generated output, or callback data.
+</small>

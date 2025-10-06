@@ -1,0 +1,79 @@
+---
+title: OpenAI Agent Embeds
+description: Embed ChatKit in your app using React or the Web Component.
+tableOfContents: false
+---
+
+import { Code, TabItem, Tabs } from '@astrojs/starlight/components';
+
+<div class="openai-hero">
+  <div class="openai-hero-container flex gap-4">
+    <div class="openai-quickstart flex-1 flex items-center">
+      <div>
+        <h2 class="title">Quickstart</h2>
+        <p>Build your first chat application in minutes.</p>
+        <a href={`https://platform.openai.com/docs/guides/chatkit`} class="openai-hero-cta">Let's build</a>
+      </div>
+    </div>
+    <div class="openai-hero-code flex-1 overflow-x-scroll">
+    <Tabs>
+      <TabItem label="React">
+
+        ```tsx
+        function MyChat({ clientToken }) {
+          const { control } = useChatKit({ 
+            api: { clientToken } 
+          });
+
+          return (
+            <ChatKit 
+              control={control}
+              className="h-[600px] w-[320px]"
+            />
+          );
+        }
+        ```
+
+        </TabItem>
+        <TabItem label="Vanilla JS">
+
+        ```js
+        function InitChatkit({ clientToken }) {
+          const chatkit = document.createElement('openai-chatkit');
+          chatkit.setOptions({ api: { clientToken } });
+          chatkit.classList.add('h-[600px]', 'w-[320px]');
+          document.body.appendChild(chatkit);
+        }     
+        ```
+
+        </TabItem>
+        </Tabs>
+        </div>
+  </div>
+</div>
+
+
+
+## Overview
+
+ChatKit is a framework for building high-quality, AI-powered chat experiences. It’s designed for developers who want to add advanced conversational intelligence to their apps fast—with minimal setup and no reinventing the wheel. ChatKit delivers a complete, production-ready chat interface out of the box.
+
+**Key features**
+
+- **Deep UI customization** so that ChatKit feels like a first-class part of your app
+- **Built-in response streaming** for interactive, natural conversations
+- **Tool and workflow integration** for visualizing agentic actions and chain-of-thought reasoning
+- **Rich interactive widgets** rendered directly inside the chat
+- **Attachment handling** with support for file and image uploads
+- **Thread and message management** for organizing complex conversations
+- **Source annotations and entity tagging** for transparency and references
+
+Simply drop the ChatKit component into your app, configure a few options, and you're good to go.
+
+## What makes ChatKit different?
+
+ChatKit is a framework-agnostic, drop-in chat solution. 
+You don’t need to build custom UIs, manage low-level chat state, or patch together various features yourself.
+Just add the ChatKit component, give it a client token, and customize the chat experience as needed, no extra work needed.
+
+

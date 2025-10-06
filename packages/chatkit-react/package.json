@@ -1,0 +1,47 @@
+{
+  "name": "@openai/chatkit-react",
+  "version": "0.0.0",
+  "description": "React bindings for the ChatKit Web Component.",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "dependencies": {
+    "@openai/chatkit": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "vitest": "^3.2.4",
+    "tsup": "^8.0.0",
+    "rimraf": "^5.0.0"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "test": "vitest",
+    "types": "tsc",
+    "lint": "eslint .",
+    "clean": "rimraf dist"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": false
+  },
+  "license": "MIT"
+}

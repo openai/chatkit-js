@@ -1,0 +1,26 @@
+{
+  "name": "@openai/chatkit",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Type definitions for the ChatKit Web Component.",
+  "sideEffects": false,
+  "files": [
+    "types",
+    "README.md"
+  ],
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts"
+    }
+  },
+  "scripts": {
+    "types": "tsc",
+    "clean": "rimraf dist"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": false
+  },
+  "license": "MIT"
+}

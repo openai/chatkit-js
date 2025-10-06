@@ -1,0 +1,10 @@
+dist/
+.astro/
+node_modules/
+
+.env
+.env.production
+
+.DS_Store
+*.tsbuildinfo
+pnpm-debug.log*

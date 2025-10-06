@@ -1,0 +1,80 @@
+---
+title: Entity tagging
+description: Recognize, display, and use structured objects mentioned in conversation.
+---
+
+:::note[Note]
+Entities are supported only in **custom integrations**.  
+If you are using `ChatKit.js` with a hosted backend, entity features are not available.
+:::
+
+Entities are structured pieces of information your system can recognize during a conversation — such as names, dates, IDs, or product-specific objects.
+
+They represent meaningful objects in your app's domain. For example:
+
+- In a notes app, entities might be documents.
+- In a news site, they might be articles.
+- In an online store, they might be products.
+
+When detected, entities can link messages to real data and power richer actions and previews.
+
+## Using entities as sources
+
+Entities can be used as cited sources in assistant responses. You can customize the popover preview rendered on hover by providing `entities.onRequestPreview` in options.
+
+```jsx
+const options: Partial<ChatKitOptions> = {
+  entities: {
+    onRequestPreview: async (entity: Entity) => {
+      return {
+        preview: {
+          type: "Card",
+          children: [
+            { type: "Title", value: entity.title },
+            { type: "Text", value: entity.data.summary },
+          ],
+        },
+      }
+    },
+  },
+};
+```
+
+## Tagging with @-mentions
+
+To enable entity tagging as @-mentions in the composer, pass in `entities.onTagSearch`.
+
+You can also define:
+- `entities.onClick` - handle what happens when a tagged entity is clicked in a past user message.
+- `entities.onRequestPreview` - reuse the same preview handler shown above for hover previews.
+
+
+
+```jsx
+const options: Partial<ChatKitOptions> = {
+  entities: {
+    onTagSearch: async (query: string) => {
+      return [
+        {
+          id: "article_123",
+          title: "The Future of AI",
+          group: "Trending",
+          interactive: true,
+        },
+        {
+          id: "article_124",
+          title: "One weird trick to improve your sleep",
+          group: "Trending",
+          interactive: true,
+        },
+      ]
+    },
+    onClick: (entity: Entity) => {
+      window.location.href = entity.data.url;
+    },
+    // onRequestPreview: same as above
+  },
+};
+```
+
+

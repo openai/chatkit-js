@@ -1,0 +1,41 @@
+---
+title: Widget actions
+description: Handle custom widget interactions and previews in ChatKit.
+---
+
+Widgets let you display context, shortcuts, and interactive cards right inside the conversation.
+
+When a user interacts with a widget that has a client-side action handler, ChatKit calls the handler you provided through widgets.onAction.
+
+## Handle actions on the client
+
+Use the `onAction` callback from `WidgetsOption` (or the equivalent React hook) to capture widget events. Forward the action payload to your backend so it can take the appropriate side effect.
+
+```ts
+chatkit.setOptions({
+  widgets: {
+    async onAction(action, item) {
+      if (action.type === 'refresh-dashboard') {
+        // handle client-side state
+        store.setState({ refreshing: true });
+
+        // and/or send the action to your server
+        await fetch('your/api/refresh-dashboard', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ page: action.payload.page, itemId: item.id }),
+        });
+      }
+       
+      // ..handle other actions
+    },
+  },
+});
+```
+
+Looking for a full server example? The [ChatKit Python SDK docs](https://openai.github.io/chatkit-python-sdk/guides/widget-actions) include an end-to-end walkthrough that mirrors the JS API.
+
+## Design widgets quickly
+
+Use the [Widget Studio](https://chatkit.studio/widgets) to experiment with card layouts, list rows, and preview components. When you are satisfied, copy the generated JSON into your integration and serve it from your backend.
+

@@ -1,0 +1,83 @@
+---
+title: Authentication
+description: How to authenticate ChatKit clients and secure your backend.
+---
+
+import { TabItem, Tabs } from '@astrojs/starlight/components';
+
+:::note[Note]
+This guide is for **hosted** integrations.
+If you are using `ChatKit.js` with a custom backend, see [Custom Backends](/guides/custom-backends).
+:::
+
+ChatKit uses short‑lived client tokens issued by your server. Your backend creates a session and returns a token to trusted clients. Clients never use your API key directly.
+
+To keep sessions alive, refresh the token just before its expiration and reconnect the widget with the new secret.
+
+## Generate tokens on your server
+
+- Create a session on your server using the OpenAI API
+- Return it to the client
+- Create a way to refresh the token when it nears expiration
+- Connect ChatKit to your token refresh endpoint
+
+## Configure ChatKit
+
+<Tabs syncKey="language">
+<TabItem label="React">
+  ```jsx
+    const { control } = useChatKit({
+      api: {
+        getClientSecret(currentClientSecret) {
+          if (!currentClientSecret) {
+            const res = await fetch('/api/chatkit/start', { method: 'POST' })
+            const {client_secret} = await res.json();
+            return client_secret
+          }
+          const res = await fetch('/api/chatkit/refresh', {
+            method: 'POST',
+            body: JSON.stringify({ currentClientSecret })
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const {client_secret} = await res.json();
+          return client_secret
+        }
+      },
+    });
+  ```
+
+</TabItem>
+
+<TabItem label="Vanilla JS">
+
+  ```js
+    const chatkit = document.getElementById('my-chat');
+
+    chatkit.setOptions({
+      api: {
+        getClientSecret(currentClientSecret) {
+          if (!currentClientSecret) {
+            const res = await fetch('/api/chatkit/start', { method: 'POST' })
+            const {client_secret} = await res.json();
+            return client_secret
+          }
+          const res = await fetch('/api/chatkit/refresh', {
+            method: 'POST',
+            body: JSON.stringify({ currentClientSecret })
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const {client_secret} = await res.json();
+          return client_secret
+        }
+      },
+    });
+  ```
+
+</TabItem>
+</Tabs>
+
+

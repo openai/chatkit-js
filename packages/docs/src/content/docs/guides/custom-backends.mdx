@@ -1,0 +1,92 @@
+---
+title: Custom backends
+description: Build a bespoke backend for ChatKit using your own stack.
+---
+
+import { TabItem, Tabs } from '@astrojs/starlight/components';
+
+Use a custom backend when you need full control over routing, tools, memory, or security. Provide a custom fetch function to use for API requests and orchestrate model calls yourself.
+
+## Approaches
+
+- Use the ChatKit Python SDK for fast integration
+- Or integrate directly with your model provider and implement compatible events
+
+## Configure ChatKit
+
+<Tabs syncKey="language">
+<TabItem label="React">
+  ```jsx
+    const auth = getUserAuth(); // your custom auth info
+
+    const { control } = useChatKit({
+      api: {
+        url: 'https://your-domain.com/your/chatkit/api',
+
+        // Any info you inject in the custom fetch callback is invisible to ChatKit.
+        fetch(url: string, options: RequestInit) {
+          return fetch(url, {
+            ...options,
+
+            // Inject your auth header here.
+            headers: {
+              ...options.headers,
+              "Authorization": `Bearer ${auth}`,
+            },
+
+            // You can override any options here
+          });
+        },
+
+        // Required when attachments are enabled.
+        uploadStrategy: {
+          type: "direct",
+          uploadUrl: "https://your-domain.com/your/chatkit/api/upload",
+        }
+
+        // Register your domain in the dashboard at
+        // https://platform.openai.com/settings/organization/security/domain-allowlist
+        domainKey: "your-domain-key",
+      },
+    });
+  ```
+
+</TabItem>
+
+<TabItem label="Vanilla JS">
+
+  ```js
+    const chatkit = document.getElementById('my-chat');
+
+    chatkit.setOptions({
+      api: {
+        url: 'https://your-domain.com/your/chatkit/api',
+        fetch(url: string, options: RequestInit) {
+          return fetch(url, {
+            ...options,
+            headers: {
+              ...options.headers,
+              // Inject your auth header here.
+              // Anything you do in this callback is invisible to ChatKit.
+              "Authorization": `Bearer ${auth}`,
+            },
+            // You can override any options here
+          });
+        },
+        // Register your domain in the dashboard at
+        // https://platform.openai.com/settings/organization/security/domain-allowlist
+        domainKey: "your-domain-key",
+        // Required when attachments are enabled.
+        uploadStrategy: {
+          type: "direct",
+          uploadUrl: "https://your-domain.com/your/chatkit/api/upload",
+        }
+      },
+    });
+  ```
+
+</TabItem>
+</Tabs>
+
+
+

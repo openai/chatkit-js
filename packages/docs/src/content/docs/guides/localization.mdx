@@ -1,0 +1,76 @@
+---
+title: Localization
+description: Control ChatKit locales and align UI strings with your backend.
+---
+
+import { TabItem, Tabs } from '@astrojs/starlight/components';
+
+## Automatic locale detection
+
+ChatKit translates its built-in UI (system messages, default header labels, generic errors) using the browser's preferred locale. If the requested locale is not available, ChatKit falls back to English.
+
+## Overriding the locale option
+
+Set the `locale` option whenever you need to lock ChatKit to a specific translation, regardless of browser preferences.
+
+<Tabs syncKey="localization-locale">
+<TabItem label="React">
+
+```tsx
+import { ChatKit, useChatKit } from '@openai/chatkit-react';
+
+export function SupportChat({ clientToken }: { clientToken: string }) {
+  const { control } = useChatKit({
+    // ... other options
+    locale: 'fr',
+  });
+
+  return <ChatKit control={control} className="h-[520px]" />;
+}
+```
+
+</TabItem>
+<TabItem label="Web component">
+
+```ts
+const chatkit = document.getElementById('my-chat') as OpenAIChatKit;
+
+chatkit.setOptions({
+  // ... other options
+  locale: 'fr',
+});
+```
+
+</TabItem>
+</Tabs>
+
+:::note
+`setOptions` fully replaces the previous configuration, so each call should include the entire options object.
+:::
+
+## Provide localized option strings
+
+Options such as `startScreen.greeting`, `startScreen.prompts`, `header.title.text`, and other text fields are **not** auto-translated. Pass fully translated values that match the locale you resolved for the user.
+
+```ts
+const options: ChatKitOptions = {
+  locale: 'es',
+  startScreen: {
+    greeting: '¿En qué puedo ayudarte hoy?',
+    prompts: [
+      { label: 'Revisar pedidos pendientes', prompt: 'Muéstrame mis pedidos abiertos.' },
+    ],
+  },
+};
+```
+
+The list of supported locales is available in the [API reference](../api/openai/chatkit/type-aliases/supportedlocale/).
+
+:::note
+If you switch locales at runtime, update every user-facing string in your options at the same time to avoid mixing languages.
+:::
+
+## Server coordination
+
+When ChatKit resolves a locale (either from the browser or the `locale` option), it sends that value in the `Accept-Language` header for each API request. Custom backends can use this header to provide localized tool outputs or errors.
+

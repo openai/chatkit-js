@@ -1,0 +1,35 @@
+{
+  "name": "root",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev:docs": "pnpm -F docs dev",
+    "test": "pnpm -r run test",
+    "lint": "pnpm -r run lint",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "types": "pnpm -r run types",
+    "clean": "pnpm -r run clean",
+    "check": "prettier --check . && pnpm -r run lint && pnpm types && pnpm -r run test",
+    "ci:publish": "pnpm publish -r --access public",
+    "release": "changeset version && pnpm -r build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "2.27.10",
+    "@eslint/js": "^9.35.0",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "@typescript-eslint/parser": "^8.44.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.4.0",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.45.0"
+  },
+  "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
+}

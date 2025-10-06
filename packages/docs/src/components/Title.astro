@@ -1,0 +1,8 @@
+---
+import Logo from './Logo.astro';
+const { siteTitle, siteTitleHref } = Astro.locals.starlightRoute;
+---
+
+<a href={siteTitleHref} class="site-title sl-flex" style="text-decoration:none;">
+  <Logo height={48} alt={siteTitle} />
+</a>

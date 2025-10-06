@@ -1,0 +1,73 @@
+---
+title: Methods
+description: Call ChatKit imperative helpers from React or the web component.
+---
+
+import { TabItem, Tabs } from '@astrojs/starlight/components';
+
+ChatKit exposes a compact set of imperative helpers for tasks that fall outside the declarative flow, such as switching threads, sending composed messages, or manually syncing data. These helpers are exposed on both the `useChatKit` hook and the `<openai-chatkit>` web component.
+
+<Tabs syncKey="methods-target">
+<TabItem label="React">
+
+```tsx
+import { ChatKit, useChatKit } from '@openai/chatkit-react';
+
+export function Inbox({ clientToken }: { clientToken: string }) {
+  const {
+    control,
+    focusComposer,
+    setThreadId,
+    sendUserMessage,
+    setComposerValue,
+    fetchUpdates,
+    sendCustomAction,
+  } = useChatKit({ api: { clientToken } });
+
+  return <ChatKit control={control} className="h-[600px]" />;
+}
+```
+
+</TabItem>
+<TabItem label="Web component">
+
+```ts
+const chatkit = document.getElementById('my-chat') as OpenAIChatKit;
+
+await chatkit.focusComposer();
+await chatkit.setThreadId(null); // new chat
+await chatkit.setThreadId('thread_123');
+await chatkit.sendUserMessage({ text: 'Hello there!' });
+await chatkit.setComposerValue({ text: 'Draft message' });
+await chatkit.fetchUpdates();
+await chatkit.sendCustomAction({ type: 'refresh-dashboard', payload: { page: 'settings' } });
+```
+
+</TabItem>
+</Tabs>
+
+## Method reference
+
+### `focusComposer()`
+Focuses the ChatKit composer input. The method resolves once the focus request is delivered.
+
+:::note
+Focusing the composer may not work reliably on mobile browsers because many mobile platforms block programmatic focus routines outside of direct user gestures.
+:::
+
+### `setThreadId(threadId: string | null)`
+Loads an existing thread or passes `null` to start a new draft conversation. Useful when a user selects a thread in your own navigation UI.
+
+### `sendUserMessage({ text, reply, attachments, newThread })`
+Sends a message as the current user. Supply `reply` (to be displayed as quoted text) when responding to an assistant message, `attachments` with uploaded attachment descriptors, and `newThread: true` to force creation of a new thread.
+
+### `setComposerValue({ text, reply, attachments })`
+Replaces the composer contents without sending. Handy for drafting suggested replies or restoring saved state.
+
+### `fetchUpdates()`
+Requests new events from your backend immediately instead of waiting for the normal polling cadence. Call this after mutating the thread externally (for example, when importing history).
+
+### `sendCustomAction(action, itemId?)`
+Dispatches an arbitrary action payload back to your backend, optionally namespaced to a widget item ID. Use this to react to UI events (button clicks, widget commands) that require server-side handling.
+
+All methods return `Promise<void>` and can be awaited to ensure the call completes before performing follow-up logic.
