@@ -69,7 +69,7 @@ const sidebar = [
 ];
 
 export default defineConfig({
-  site: 'https://openai.github.io/chatkit-js',
+  site: 'https://openai.github.io/chatkit-js/',
 
   integrations: [
     starlight({
