@@ -20,7 +20,7 @@ const { control } = useChatKit({
     typography: { fontFamily: "Open Sans, sans-serif" },
   },
   header: {
-    customButtonLeft: {
+    leftAction: {
       icon: "settings-cog",
       onClick: () => alert("Profile settings"),
     },
@@ -63,7 +63,7 @@ el.setOptions({
     typography: { fontFamily: "Open Sans, sans-serif" },
   },
   header: {
-    customButtonLeft: {
+    leftAction: {
       icon: "settings-cog",
       onClick: () => alert("Profile settings"),
     },
@@ -184,11 +184,11 @@ Custom header buttons help you add navigation, context, or actions relevant to y
 ```jsx
 const options: Partial<ChatKitOptions> = {
   header: {
-    customButtonLeft: {
+    leftAction: {
       icon: "settings-cog",
       onClick: () => openProfileSettings(),
     },
-    customButtonRight: {
+    rightAction: {
       icon: "home",
       onClick: () => openHomePage(),
     },
