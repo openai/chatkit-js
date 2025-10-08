@@ -1,6 +1,6 @@
 {
   "name": "@openai/chatkit",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "Type definitions for the ChatKit Web Component.",
   "sideEffects": false,
