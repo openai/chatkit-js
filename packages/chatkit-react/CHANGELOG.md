@@ -1,5 +1,15 @@
 # @openai/chatkit-react
 
+## 1.1.0
+
+### Minor Changes
+
+- 3de3243: Exposed a ref to the underlying `OpenAIChatKit` DOM element in the return value of `useChatKit`
+
+### Patch Changes
+
+- 3de3243: Removed usage of React 19 only ref callback cleanup function
+
 ## 1.0.0
 
 ### Major Changes
