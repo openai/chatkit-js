@@ -164,7 +164,7 @@ export type StartScreenOption = {
 export type WidgetsOption = {
   /**
    * Called when a widget action is triggered.
-   * See https://openai.github.io/chatkit/guides/widget-actions/ for details.
+   * See https://openai.github.io/chatkit-js/guides/widget-actions/ for details.
    */
   onAction?: (
     action: { type: string; payload?: Record<string, unknown> },
@@ -791,7 +791,7 @@ export interface OpenAIChatKit extends HTMLElement {
 
   /**
    * Sends a custom application-defined action to your backend.
-   * See https://openai.github.io/chatkit/guides/widget-actions/ for more details.
+   * See https://openai.github.io/chatkit-js/guides/widget-actions/ for more details.
    */
   sendCustomAction(
     action: { type: string; payload?: Record<string, unknown> },
