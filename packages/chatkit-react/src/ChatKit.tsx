@@ -22,8 +22,8 @@ export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
     const ref = React.useRef<OpenAIChatKit | null>(null);
 
     React.useLayoutEffect(() => {
-      if (!ref.current) return;
       const el = ref.current;
+      if (!el) return;
 
       // Fast path: element is already defined
       if (customElements.get('openai-chatkit')) {
@@ -45,6 +45,8 @@ export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
     return (
       <openai-chatkit
         ref={(chatKit) => {
+          ref.current = chatKit;
+
           control.setInstance(chatKit);
 
           if (typeof forwardedRef === 'function') {
