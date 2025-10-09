@@ -1,6 +1,6 @@
 {
   "name": "@openai/chatkit",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "Type definitions for the ChatKit Web Component.",
   "sideEffects": false,
@@ -21,6 +21,10 @@
   "publishConfig": {
     "access": "public",
     "provenance": false
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openai/chatkit-js"
   },
   "license": "MIT"
 }

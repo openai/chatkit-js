@@ -83,6 +83,11 @@ Just add the ChatKit component, give it a client token, and customize the chat e
    }
    ```
 
+## See working examples
+
+- [Starter app](https://github.com/openai/openai-chatkit-starter-app) - Clone a repo to start with a fully working template
+- [Samples](https://github.com/openai/openai-chatkit-advanced-samples) - See working examples of ChatKit and get inspired
+
 ## License
 
 This project is licensed under the [Apache License 2.0](LICENSE).

@@ -50,6 +50,7 @@ export type ChatKitControl = {
 
 export type UseChatKitReturn = ChatKitMethods & {
   control: ChatKitControl;
+  ref: React.RefObject<OpenAIChatKit | null>;
 };
 
 export function useChatKit(options: UseChatKitOptions): UseChatKitReturn {
@@ -98,5 +99,8 @@ export function useChatKit(options: UseChatKitOptions): UseChatKitReturn {
     };
   }, [stableOptions, setInstance]);
 
-  return React.useMemo(() => ({ ...methods, control }), [methods, control]);
+  return React.useMemo(
+    () => ({ ...methods, control, ref }),
+    [methods, control],
+  );
 }
