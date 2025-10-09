@@ -1,5 +1,11 @@
 # @openai/chatkit-react
 
+## 1.1.1
+
+### Patch Changes
+
+- 7385e2f: Fix issue where ref was not being set
+
 ## 1.1.0
 
 ### Minor Changes
