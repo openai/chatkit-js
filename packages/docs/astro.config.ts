@@ -66,6 +66,19 @@ const sidebar = [
       },
     ],
   },
+  {
+    label: 'Examples',
+    items: [
+      {
+        label: 'Starter App',
+        link: 'https://github.com/openai/openai-chatkit-starter-app',
+      },
+      {
+        label: 'Advanced Samples',
+        link: 'https://github.com/openai/openai-chatkit-advanced-samples',
+      },
+    ],
+  },
 ];
 
 export default defineConfig({
