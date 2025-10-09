@@ -11,9 +11,7 @@
     "format": "prettier --write .",
     "types": "pnpm -r run types",
     "clean": "pnpm -r run clean",
-    "check": "prettier --check . && pnpm -r run lint && pnpm types && pnpm -r run test",
-    "ci:publish": "pnpm publish -r --access public",
-    "release": "changeset version && pnpm -r build && changeset publish"
+    "check": "prettier --check . && pnpm -r run lint && pnpm types && pnpm -r run test"
   },
   "devDependencies": {
     "@changesets/cli": "2.27.10",
