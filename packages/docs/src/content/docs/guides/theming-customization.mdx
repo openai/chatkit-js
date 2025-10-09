@@ -217,64 +217,6 @@ const options: Partial<ChatKitOptions> = {
 }
 ```
 
-### Enable @mentions in the composer with entity tags
-
-Let users tag custom “entities” with @-mentions. This enables richer conversation context and interactivity.
-
-- Use `onTagSearch` to return a list of entities based on the input query.
-- Use `onClick` to handle the click event of an entity.
-
-```jsx
-const options: Partial<ChatKitOptions> = {
-  entities: {
-    async onTagSearch(query) {
-      return [
-        { 
-          id: "user_123", 
-          title: "Jane Doe", 
-          group: "People", 
-          interactive: true, 
-        },
-        { 
-          id: "document_123", 
-          title: "Quarterly Plan", 
-          group: "Documents", 
-          interactive: true, 
-        },
-      ]
-    },
-    onClick: (entity) => {
-      navigateToEntity(entity.id);
-    },
-  },
-};
-```
-
-
-### Customize how entity tags appear
-
-You can customize the appearance of entity tags on mouseover using widgets. Show rich previews such as a business card, document summary, or image when the user hovers over an entity tag.
-
-Something about using widget studio should go here.
-
-```jsx
-const options: Partial<ChatKitOptions> = {
-  entities: {
-    async onTagSearch() { /* ... */ },
-    onRequestPreview: async (entity) => ({
-      preview: {
-        type: "Card",
-        children: [
-          { type: "Text", value: `Profile: ${entity.title}` },
-          { type: "Text", value: "Role: Developer" },
-        ],
-      },
-    }),
-  },
-};
-```
-
-
 ## Add custom tools to the composer
 
 Enhance productivity by letting users trigger app-specific actions from the composer bar. The selected tool 
