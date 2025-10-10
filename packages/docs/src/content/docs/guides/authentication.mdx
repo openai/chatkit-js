@@ -28,7 +28,7 @@ To keep sessions alive, refresh the token just before its expiration and reconne
   ```jsx
     const { control } = useChatKit({
       api: {
-        getClientSecret(currentClientSecret) {
+        async getClientSecret(currentClientSecret) {
           if (!currentClientSecret) {
             const res = await fetch('/api/chatkit/start', { method: 'POST' })
             const {client_secret} = await res.json();
@@ -36,7 +36,7 @@ To keep sessions alive, refresh the token just before its expiration and reconne
           }
           const res = await fetch('/api/chatkit/refresh', {
             method: 'POST',
-            body: JSON.stringify({ currentClientSecret })
+            body: JSON.stringify({ currentClientSecret }),
             headers: {
               'Content-Type': 'application/json',
             },
@@ -57,7 +57,7 @@ To keep sessions alive, refresh the token just before its expiration and reconne
 
     chatkit.setOptions({
       api: {
-        getClientSecret(currentClientSecret) {
+        async getClientSecret(currentClientSecret) {
           if (!currentClientSecret) {
             const res = await fetch('/api/chatkit/start', { method: 'POST' })
             const {client_secret} = await res.json();
@@ -65,7 +65,7 @@ To keep sessions alive, refresh the token just before its expiration and reconne
           }
           const res = await fetch('/api/chatkit/refresh', {
             method: 'POST',
-            body: JSON.stringify({ currentClientSecret })
+            body: JSON.stringify({ currentClientSecret }),
             headers: {
               'Content-Type': 'application/json',
             },
