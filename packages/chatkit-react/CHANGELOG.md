@@ -1,5 +1,16 @@
 # @openai/chatkit-react
 
+## 1.2.0
+
+### Minor Changes
+
+- 0f922cb: Add `onReady` to `UseChatKitOptions`
+
+### Patch Changes
+
+- Updated dependencies [efb17dc]
+  - @openai/chatkit@1.0.1
+
 ## 1.1.1
 
 ### Patch Changes
