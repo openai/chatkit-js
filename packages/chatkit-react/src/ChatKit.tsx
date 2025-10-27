@@ -69,6 +69,7 @@ export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
             'chatkit.thread.change': 'onThreadChange',
             'chatkit.thread.load.start': 'onThreadLoadStart',
             'chatkit.thread.load.end': 'onThreadLoadEnd',
+            'chatkit.ready': 'onReady',
           };
 
           const eventNames = Object.keys(events) as (keyof ChatKitEvents)[];

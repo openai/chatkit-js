@@ -914,6 +914,9 @@ export interface OpenAIChatKit extends HTMLElement {
  * DOM events emitted by the `openai-chatkit` custom element.
  */
 export type ChatKitEvents = {
+  /** Emitted when the ChatKit frame has loaded. */
+  'chatkit.ready': CustomEvent<void>;
+
   /** Emitted when an error occurs. You should log these for monitoring and debugging. */
   'chatkit.error': CustomEvent<{ error: Error }>;
 
