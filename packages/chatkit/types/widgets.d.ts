@@ -333,7 +333,7 @@ export type Checkbox = {
   id?: string;
   name: string;
   label?: string;
-  defaultChecked?: string;
+  defaultChecked?: boolean;
   onChangeAction?: ActionConfig;
   disabled?: boolean;
   required?: boolean;
