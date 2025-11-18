@@ -1,5 +1,11 @@
 # @openai/chatkit
 
+## 1.0.2
+
+### Patch Changes
+
+- 3bc87d6: Fix type for Checkbox `defaultChecked`
+
 ## 1.0.1
 
 ### Patch Changes
