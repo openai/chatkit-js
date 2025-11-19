@@ -30,6 +30,8 @@ const EVENT_HANDLER_MAP: {
   'chatkit.ready': 'onReady',
 };
 
+const EVENT_NAMES = Object.keys(EVENT_HANDLER_MAP) as (keyof ChatKitEvents)[];
+
 export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
   function ChatKit({ control, ...htmlProps }, forwardedRef) {
     const ref = React.useRef<OpenAIChatKit | null>(null);
@@ -59,24 +61,18 @@ export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
       const el = ref.current;
       if (!el) return;
 
-      const eventNames = Object.keys(
-        EVENT_HANDLER_MAP,
-      ) as (keyof ChatKitEvents)[];
-      const listeners = eventNames.map((eventName) => {
-        const listener = (e: CustomEvent) => {
-          const handler = control.handlers[EVENT_HANDLER_MAP[eventName]];
+      const controller = new AbortController();
+      for (const eventName of EVENT_NAMES) {
+        el.addEventListener(eventName, (e) => {
+          const handlerName = EVENT_HANDLER_MAP[eventName];
+          const handler = control.handlers[handlerName];
           if (typeof handler === 'function') {
-            handler(e.detail);
+            handler(e.detail as any);
           }
-        };
-        el.addEventListener(eventName, listener);
-        return { eventName, listener };
-      });
-
+        });
+      }
       return () => {
-        for (const { eventName, listener } of listeners) {
-          el.removeEventListener(eventName, listener);
-        }
+        controller.abort();
       };
     }, [control.handlers]);
 
