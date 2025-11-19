@@ -1,5 +1,11 @@
 # @openai/chatkit
 
+## 1.0.3
+
+### Patch Changes
+
+- 63c423a: Add `persistent` field to `ToolOption`
+
 ## 1.0.2
 
 ### Patch Changes

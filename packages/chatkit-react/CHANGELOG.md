@@ -1,5 +1,12 @@
 # @openai/chatkit-react
 
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [63c423a]
+  - @openai/chatkit@1.0.3
+
 ## 1.2.1
 
 ### Patch Changes
