@@ -1,6 +1,6 @@
 {
   "name": "@openai/chatkit-react",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "React bindings for the ChatKit Web Component.",
   "type": "module",
   "sideEffects": false,

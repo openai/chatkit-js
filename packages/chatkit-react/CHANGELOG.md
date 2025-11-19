@@ -1,5 +1,11 @@
 # @openai/chatkit-react
 
+## 1.2.3
+
+### Patch Changes
+
+- 7107130: Fix event handlers registered multiple times
+
 ## 1.2.2
 
 ### Patch Changes
