@@ -61,19 +61,19 @@ export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
 
       const eventNames = Object.keys(EVENT_HANDLER_MAP) as (keyof ChatKitEvents)[];
       const listeners = eventNames.map((eventName) => {
-        const listener = (e: Event) => {
+        const listener = (e: CustomEvent) => {
           const handler = control.handlers[EVENT_HANDLER_MAP[eventName]];
           if (typeof handler === 'function') {
-            handler((e as CustomEvent).detail as any);
+            handler(e.detail);
           }
         };
-        el.addEventListener(eventName as string, listener as EventListener);
+        el.addEventListener(eventName, listener);
         return { eventName, listener };
       });
 
       return () => {
         for (const { eventName, listener } of listeners) {
-          el.removeEventListener(eventName as string, listener as EventListener);
+          el.removeEventListener(eventName, listener);
         }
       };
     }, [control.handlers]);
