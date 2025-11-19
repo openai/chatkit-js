@@ -17,6 +17,19 @@ declare module 'react' {
   }
 }
 
+const EVENT_HANDLER_MAP: {
+  [K in keyof ChatKitEvents]: ToEventHandlerKey<K>;
+} = {
+  'chatkit.error': 'onError',
+  'chatkit.response.end': 'onResponseEnd',
+  'chatkit.response.start': 'onResponseStart',
+  'chatkit.log': 'onLog',
+  'chatkit.thread.change': 'onThreadChange',
+  'chatkit.thread.load.start': 'onThreadLoadStart',
+  'chatkit.thread.load.end': 'onThreadLoadEnd',
+  'chatkit.ready': 'onReady',
+};
+
 export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
   function ChatKit({ control, ...htmlProps }, forwardedRef) {
     const ref = React.useRef<OpenAIChatKit | null>(null);
@@ -42,6 +55,29 @@ export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
       };
     }, [control.options]);
 
+    React.useEffect(() => {
+      const el = ref.current;
+      if (!el) return;
+
+      const eventNames = Object.keys(EVENT_HANDLER_MAP) as (keyof ChatKitEvents)[];
+      const listeners = eventNames.map((eventName) => {
+        const listener = (e: Event) => {
+          const handler = control.handlers[EVENT_HANDLER_MAP[eventName]];
+          if (typeof handler === 'function') {
+            handler((e as CustomEvent).detail as any);
+          }
+        };
+        el.addEventListener(eventName as string, listener as EventListener);
+        return { eventName, listener };
+      });
+
+      return () => {
+        for (const { eventName, listener } of listeners) {
+          el.removeEventListener(eventName as string, listener as EventListener);
+        }
+      };
+    }, [control.handlers]);
+
     return (
       <openai-chatkit
         ref={(chatKit) => {
@@ -57,30 +93,6 @@ export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
 
           if (!ref.current) {
             return;
-          }
-
-          const events: {
-            [K in keyof ChatKitEvents]: ToEventHandlerKey<K>;
-          } = {
-            'chatkit.error': 'onError',
-            'chatkit.response.end': 'onResponseEnd',
-            'chatkit.response.start': 'onResponseStart',
-            'chatkit.log': 'onLog',
-            'chatkit.thread.change': 'onThreadChange',
-            'chatkit.thread.load.start': 'onThreadLoadStart',
-            'chatkit.thread.load.end': 'onThreadLoadEnd',
-            'chatkit.ready': 'onReady',
-          };
-
-          const eventNames = Object.keys(events) as (keyof ChatKitEvents)[];
-
-          for (const event of eventNames) {
-            ref.current.addEventListener(event, (e) => {
-              const handler = control.handlers[events[event]];
-              if (typeof handler === 'function') {
-                handler(e.detail as any);
-              }
-            });
           }
         }}
         {...htmlProps}
