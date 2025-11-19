@@ -437,6 +437,14 @@ export type ToolOption = {
    * @default false
    */
   pinned?: boolean;
+
+  /**
+   * Whether the tool continues to be selected after the user submits a message.
+   * The default behavior is for tool selection to be cleared after message submission.
+   *
+   * @default false
+   */
+  persistent?: boolean;
 };
 
 /**
