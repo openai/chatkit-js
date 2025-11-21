@@ -28,6 +28,7 @@ const EVENT_HANDLER_MAP: {
   'chatkit.thread.load.start': 'onThreadLoadStart',
   'chatkit.thread.load.end': 'onThreadLoadEnd',
   'chatkit.ready': 'onReady',
+  'chatkit.client.sideEffect': 'onClientSideEffect',
 };
 
 const EVENT_NAMES = Object.keys(EVENT_HANDLER_MAP) as (keyof ChatKitEvents)[];
