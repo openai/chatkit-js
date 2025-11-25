@@ -1,5 +1,16 @@
 # @openai/chatkit-react
 
+## 1.3.0
+
+### Minor Changes
+
+- 8fcee7c: Add `onEffect` to `UseChatKitOptions`
+
+### Patch Changes
+
+- Updated dependencies [8fcee7c]
+  - @openai/chatkit@1.1.0
+
 ## 1.2.3
 
 ### Patch Changes
