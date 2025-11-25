@@ -64,13 +64,17 @@ export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
 
       const controller = new AbortController();
       for (const eventName of EVENT_NAMES) {
-        el.addEventListener(eventName, (e) => {
-          const handlerName = EVENT_HANDLER_MAP[eventName];
-          const handler = control.handlers[handlerName];
-          if (typeof handler === 'function') {
-            handler(e.detail as any);
-          }
-        });
+        el.addEventListener(
+          eventName,
+          (e) => {
+            const handlerName = EVENT_HANDLER_MAP[eventName];
+            const handler = control.handlers[handlerName];
+            if (typeof handler === 'function') {
+              handler(e.detail as any);
+            }
+          },
+          { signal: controller.signal },
+        );
       }
       return () => {
         controller.abort();
