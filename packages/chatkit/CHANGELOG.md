@@ -1,5 +1,11 @@
 # @openai/chatkit
 
+## 1.1.0
+
+### Minor Changes
+
+- 8fcee7c: Add `chatkit.effect` event
+
 ## 1.0.3
 
 ### Patch Changes
