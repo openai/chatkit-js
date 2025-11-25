@@ -70,7 +70,7 @@ export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
           if (typeof handler === 'function') {
             handler(e.detail as any);
           }
-        });
+        }, { signal: controller.signal });
       }
       return () => {
         controller.abort();
