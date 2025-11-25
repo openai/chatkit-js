@@ -928,6 +928,12 @@ export type ChatKitEvents = {
   /** Emitted when an error occurs. You should log these for monitoring and debugging. */
   'chatkit.error': CustomEvent<{ error: Error }>;
 
+  /** Emitted when a fire-and-forget client effect is triggered. */
+  'chatkit.effect': CustomEvent<{
+    name: string;
+    data?: Record<string, unknown>;
+  }>;
+
   /** Emitted when the assistant begins sending a response. */
   'chatkit.response.start': CustomEvent<void>;
 
