@@ -1,6 +1,6 @@
 ---
 title: Localization
-description: Control ChatKit locales and align UI strings with your backend.
+description: Control ChatKit locales, translate UI strings, and forward the resolved locale to your backend.
 ---
 
 import { TabItem, Tabs } from '@astrojs/starlight/components';
@@ -9,7 +9,7 @@ import { TabItem, Tabs } from '@astrojs/starlight/components';
 
 ChatKit translates its built-in UI (system messages, default header labels, generic errors) using the browser's preferred locale. If the requested locale is not available, ChatKit falls back to English.
 
-## Overriding the locale option
+## Override the locale option
 
 Set the `locale` option whenever you need to lock ChatKit to a specific translation, regardless of browser preferences.
 
@@ -70,7 +70,13 @@ The list of supported locales is available in the [API reference](../../api/open
 If you switch locales at runtime, update every user-facing string in your options at the same time to avoid mixing languages.
 :::
 
-## Server coordination
+## Forward locale to your backend
 
-When ChatKit resolves a locale (either from the browser or the `locale` option), it sends that value in the `Accept-Language` header for each API request. Custom backends can use this header to provide localized tool outputs or errors.
+When ChatKit resolves a locale (either from the browser or the `locale` option), it sends that value in the `Accept-Language` header for each API request. Use that header to localize tool outputs or error messages returned by your backend.
 
+```ts
+app.post('/chatkit/api', (req, res) => {
+  const locale = req.headers['accept-language'] ?? 'en';
+  // Use locale to select translations or route to localized tools
+});
+```

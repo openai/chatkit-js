@@ -70,11 +70,36 @@ ChatKit is a framework for building high-quality, AI-powered chat experiences. I
 
 Simply drop the ChatKit component into your app, configure a few options, and you're good to go.
 
+
 ## What makes ChatKit different?
 
 ChatKit is a framework-agnostic, drop-in chat solution. 
 You don’t need to build custom UIs, manage low-level chat state, or patch together various features yourself.
 Just add the ChatKit component, give it a client token, and customize the chat experience as needed, no extra work needed.
+
+
+## Hosted vs. custom backend
+
+Use ChatKit with an OpenAI-hosted backend (workflows built in Agent Builder) or with your own backend running on your infrastructure and inference stack using the ChatKit Python SDK.
+
+|                         | Hosted backend | Custom backend |
+| ----------------------- | -------------- | -------------- |
+| Best for                | Fastest setup with OpenAI-managed infra | Maximum control, custom workflows, and proprietary data paths |
+| Who runs the chat server?| OpenAI         | You            |
+| Who stores messages and attachments?    | OpenAI         | You            |
+| Who hosts the iframe that renders Chat UI? | OpenAI | OpenAI |
+| Inference pipeline      | Workflow published with Agent Builder | Use Agents SDK or roll your own |
+| User authentication     | Handle authentication in your own server before minting short-lived ChatKit client secrets with the ChatKit API | Inject your auth headers for ChatKit requests made to your server by providing a custom fetch method to ChatKit |
+| Chat UI customization | ✓ | ✓ |
+| Attachments | ✓ | ✓ |
+| Conversation history | ✓ | ✓ |
+| Widgets | ✓ | ✓ |
+| Client tool calls | ✓ | ✓ |
+| File and url annotations | ✓ | ✓ |
+| Composer @-mentions, tool menu, model picker |  | ✓ |
+| Response cancelling |  | ✓ |
+| Pushing client effects from server |  | ✓ |
+| Injecting user context or app data as model input with user messages | With client tool calls (can be slow) or MCP server tools | With data retrieval tools or directly when composing model input in your server |
 
 
 ## See working examples

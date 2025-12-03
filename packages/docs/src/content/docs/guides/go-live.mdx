@@ -1,0 +1,12 @@
+---
+title: Go live
+description: Checklist for moving your ChatKit integration from dev to production.
+---
+
+When deploying ChatKit to production, verify that domains are registered, monitoring is wired up, data is scoped for each user, and locales are forwarded to ChatKit.
+
+- [Provide domain keys](./provide-domain-keys): Register backend hostnames and pass the issued `domainKey`.
+- [Monitor logs](./monitor-logs): Capture `chatkit.log` and `chatkit.error` events and forward them to telemetry.
+- [Update CSP settings](./update-csp-settings): Align `connect-src`, `img-src`, and `media-src` rules with your ChatKit endpoints.
+- [Scope user data](./scope-user-data): Issue per-user client secrets and enforce authorization on every call.
+- [Localization](./localization): Control the ChatKit locale and forward `Accept-Language` so backend responses and UI stay aligned.

@@ -1,0 +1,92 @@
+---
+title: Authenticate users with a hosted backend
+description: Issue client secrets from your own server and pass them to ChatKit at runtime.
+---
+
+import { TabItem, Tabs } from '@astrojs/starlight/components';
+
+:::note[Note]
+This guide is for the **hosted backend**.
+For a custom backend, see [Authenticate users with a custom backend](/chatkit-js/guides/authenticate-custom).
+:::
+
+This guide shows how to mint short-lived ChatKit client secrets after authenticating users on your server and deliver them to the hosted backend at runtime.
+
+
+
+## Expose a ChatKit session endpoint from your server
+
+Your server issues client secrets after authenticating the user. Use the ChatKit Sessions API to create (and later refresh) secrets and return only the `client_secret` value to the browser.
+
+Your server should:
+- Authenticate the user (cookies, headers, tokens, etc.)
+- Call the [ChatKit sessions API](https://platform.openai.com/docs/api-reference/chatkit/sessions/create) to create a session
+- Return `client_secret` to your app/browser
+
+**FastAPI example**
+
+```py
+from fastapi import FastAPI, Depends
+from openai import OpenAI
+import os
+
+app = FastAPI()
+client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+
+def require_user():
+    # Replace with your auth logic. Raise if unauthenticated.
+    return {"user_id": "user_123"}
+
+@app.post("/chatkit/session")
+def create_chatkit_session(user=Depends(require_user)):
+    session = client.beta.chatkit.sessions.create(
+      workflow={"id": workflow_id}, # your published Agent Builder workflow id
+      user=user["user_id"],
+      # chatkit_configuration, expires_after, rate_limits, ...
+    )
+    return {"client_secret": session.client_secret}
+```
+
+## Configure ChatKit with `getClientSecret`
+
+Wire your session endpoint into ChatKit. The callback pulls a fresh `client_secret` on mount and whenever ChatKit asks for a refresh.
+
+<Tabs syncKey="language">
+<TabItem label="React">
+  ```jsx
+    const chatkit = useChatKit({
+      api: {
+        async getClientSecret() {
+          const res = await fetch('/chatkit/session', { method: 'POST' });
+          const { client_secret } = await res.json();
+          return client_secret;
+        },
+      },
+    });
+  ```
+
+</TabItem>
+
+<TabItem label="Vanilla JS">
+
+  ```js
+    const chatkit = document.getElementById('my-chat');
+
+    chatkit.setOptions({
+      api: {
+        async getClientSecret() {
+          const res = await fetch('/api/chatkit/start', { method: 'POST' });
+          const { client_secret } = await res.json();
+          return client_secret;
+        },
+      },
+    });
+  ```
+
+</TabItem>
+</Tabs>
+
+## Operational notes
+
+- Keep the ChatKit sessions API settings (history, attachments, etc.) in sync with the options you pass to ChatKit.
+- `getClientSecret(currentClientSecret)` runs on mount and before expiry; use the presence of `currentClientSecret` to tell refreshes apart from first-time requests.

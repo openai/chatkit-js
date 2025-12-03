@@ -1,18 +1,22 @@
 ---
-title: Custom backends
-description: Build a bespoke backend for ChatKit using your own stack.
+title: Authenticate users with a custom backend
+description: Inject headers and metadata with a custom fetch function.
 ---
 
 import { TabItem, Tabs } from '@astrojs/starlight/components';
 
-Use a custom backend when you need full control over routing, tools, memory, or security. Provide a custom fetch function to use for API requests and orchestrate model calls yourself.
+:::note[Note]
+This guide is for a **custom backend** using the ChatKit Python SDK.
+For the hosted backend, see [Authenticate users with a hosted backend](/chatkit-js/guides/authenticate-hosted).
+:::
 
-## Approaches
+To protect the ChatKit endpoints exposed by your server using the ChatKit Python SDK, use a custom fetch function to inject your own auth headers and metadata on every request.
 
-- Use the ChatKit Python SDK for fast integration
-- Or integrate directly with your model provider and implement compatible events
 
-## Configure ChatKit
+## Inject headers with `api.fetch`
+
+- Point ChatKit at your endpoint with `api.url`.
+- Add auth headers through the `fetch` override.
 
 <Tabs syncKey="language">
 <TabItem label="React">
@@ -33,16 +37,8 @@ Use a custom backend when you need full control over routing, tools, memory, or 
               ...options.headers,
               "Authorization": `Bearer ${auth}`,
             },
-
-            // You can override any options here
           });
         },
-
-        // Required when attachments are enabled.
-        uploadStrategy: {
-          type: "direct",
-          uploadUrl: "https://your-domain.com/your/chatkit/api/upload",
-        }
 
         // Register your domain in the dashboard at
         // https://platform.openai.com/settings/organization/security/domain-allowlist
@@ -70,17 +66,11 @@ Use a custom backend when you need full control over routing, tools, memory, or 
               // Anything you do in this callback is invisible to ChatKit.
               "Authorization": `Bearer ${auth}`,
             },
-            // You can override any options here
           });
         },
         // Register your domain in the dashboard at
         // https://platform.openai.com/settings/organization/security/domain-allowlist
         domainKey: "your-domain-key",
-        // Required when attachments are enabled.
-        uploadStrategy: {
-          type: "direct",
-          uploadUrl: "https://your-domain.com/your/chatkit/api/upload",
-        }
       },
     });
   ```
@@ -88,5 +78,7 @@ Use a custom backend when you need full control over routing, tools, memory, or 
 </TabItem>
 </Tabs>
 
+## Backend responsibilities
 
-
+- Validate every request (auth headers, cookies, or signed params) before invoking your agent.
+- Scope data to the requesting user and session; the ChatKit Python SDK does not define the concept of a "user" or "session".

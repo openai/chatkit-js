@@ -1,0 +1,110 @@
+---
+title: Register callbacks
+description: Wire ChatKit to browser-side logic for tools, widgets, and entities.
+---
+
+import { TabItem, Tabs } from '@astrojs/starlight/components';
+
+Use callbacks to connect ChatKit to the rest of your app. Client tool calls, widget actions, and entity lookups all pause assistant responses until your handler resolves.
+
+## Handle client tool calls
+
+Client tools let your backend delegate work to the browser (local storage, UI state, device APIs). ChatKit calls `onClientTool` with the tool name and params and forwards your JSON-serializable return value back to the server.
+
+<Tabs syncKey="client-tools-target">
+<TabItem label="React">
+
+```tsx
+import { ChatKit, useChatKit } from '@openai/chatkit-react';
+
+export function SupportInbox({ clientToken }: { clientToken: string }) {
+  const { control } = useChatKit({
+    api: { clientToken },
+    onClientTool: async ({ name, params }) => {
+      if (name === 'open_tab') {
+        window.open((params as { url: string }).url, '_blank', 'noopener');
+        return { opened: true };
+      }
+
+      throw new Error(`Unhandled client tool: ${name}`);
+    },
+  });
+
+  return <ChatKit control={control} className="h-[600px] w-[320px]" />;
+}
+```
+
+</TabItem>
+<TabItem label="Web component">
+
+```ts
+const chatkit = document.getElementById('chatkit');
+
+chatkit.setOptions({
+  api: { clientToken },
+  async onClientTool({ name, params }) {
+    if (name === 'get_geolocation') {
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+      return {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      };
+    }
+
+    throw new Error(`Unknown client tool: ${name}`);
+  },
+});
+```
+
+</TabItem>
+</Tabs>
+
+## Handle widget client actions
+
+When a user interacts with a widget button or menu item, ChatKit calls `widgets.onAction`. Use this to update local state and/or forward the action to your backend.
+
+```ts
+chatkit.setOptions({
+  widgets: {
+    async onAction(action, item) {
+      if (action.type === 'refresh-dashboard') {
+        store.setState({ refreshing: true });
+
+        await fetch('/api/refresh-dashboard', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ page: action.payload?.page, itemId: item.id }),
+        });
+      }
+    },
+  },
+});
+```
+
+## Provide entity search & preview
+
+Entity tagging (composer @-mentions, hover previews) is available for custom integrations. Supply search, preview, and click handlers to keep references aligned with your domain data.
+
+```tsx
+const options: Partial<ChatKitOptions> = {
+  entities: {
+    onTagSearch: async (query: string) => {
+      return [
+        { id: "article_123", title: "The Future of AI", group: "Trending", interactive: true },
+      ];
+    },
+    onRequestPreview: async (entity) => ({
+      preview: {
+        type: "Card",
+        children: [
+          { type: "Title", value: entity.title },
+          { type: "Text", value: "Rendered when hovering tagged entities." },
+        ],
+      },
+    }),
+    onClick: (entity) => window.open(entity.data?.url ?? '#', '_blank', 'noopener'),
+  },
+};
+```

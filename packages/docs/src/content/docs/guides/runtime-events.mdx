@@ -1,0 +1,82 @@
+---
+title: Handle runtime events
+description: Listen to ChatKit events for state, effects, and observability.
+---
+
+import { TabItem, Tabs } from '@astrojs/starlight/components';
+
+ChatKit emits events you can subscribe to from React or the web component. Use them to keep state in sync, drive client effects, and feed observability pipelines.
+
+## Add event listeners
+
+<Tabs syncKey="events-target">
+<TabItem label="React">
+
+```tsx
+import { ChatKit, useChatKit } from '@openai/chatkit-react';
+
+export function Inbox({ clientToken }: { clientToken: string }) {
+  const { control } = useChatKit({
+    // ...
+    onThreadChange: ({ threadId }) => setActiveThread(threadId),
+    onThreadLoadStart: () => setIsLoading(true),
+    onThreadLoadEnd: () => setIsLoading(false),
+    onResponseStart: () => setIsResponding(true),
+    onResponseEnd: () => setIsResponding(false),
+    onLog: ({ name, data }) => logAnalytics(name, data),
+    onError: ({ error }) => logError(error),
+    onEffect: ({ name, data }) => {
+      if (name === 'show_toast') {
+        showToast(data.message);
+      }
+    },
+  });
+
+  return <ChatKit control={control} />;
+}
+```
+
+</TabItem>
+<TabItem label="Web component">
+
+```ts
+const chatkit = document.getElementById('my-chat') as OpenAIChatKit;
+
+chatkit.addEventListener('chatkit.thread.change', (event) => {
+  const { threadId } = event.detail;
+  setActiveThread(threadId);
+});
+
+chatkit.addEventListener('chatkit.thread.load.start', () => setIsLoading(true));
+chatkit.addEventListener('chatkit.thread.load.end', () => setIsLoading(false));
+chatkit.addEventListener('chatkit.response.start', () => setIsResponding(true));
+chatkit.addEventListener('chatkit.response.end', () => setIsResponding(false));
+chatkit.addEventListener('chatkit.log', ({ detail }) => logAnalytics(detail.name, detail.data));
+chatkit.addEventListener('chatkit.error', (event) => logError(event.detail.error));
+chatkit.addEventListener('chatkit.effect', (event) => {
+  if (event.detail.name === 'show_toast') {
+    showToast(event.detail.data.message);
+  }
+});
+```
+
+</TabItem>
+</Tabs>
+
+## Keep track of state changes
+
+Use these events to mirror ChatKit's runtime state in your host app:
+
+- Persist `threadId` (via `onThreadChange`) so you can restore the active thread after navigation or reloads.
+- Track `isLoading` / `isResponding` (via load/response events) to gate buttons, show skeletons, or disable custom toolbars while ChatKit is busy.
+
+Track whether ChatKit is loading or responding before invoking imperative helpers. Commands such as `sendUserMessage`, `focusComposer`, and `setThreadId` can reject if called mid-load/stream.
+
+## Client effects
+
+`chatkit.effect` (or `onEffect`) emits when a fire-and-forget client effect is triggered. Use it for ambient side effects like playing a sound, showing a toast, or emitting lightweight telemetry alongside ChatKit.
+
+## Errors and logs
+
+- `chatkit.error` (or `onError`) fires whenever ChatKit encounters a problem. Capture it to feed logs or telemetry only—ChatKit renders its own error states, so avoid driving additional UI from this handler.
+- `chatkit.log` (or `onLog`) emits structured diagnostics for operational monitoring. These logs are intentionally verbose and exclude user-entered content, agent output, and callback data.
