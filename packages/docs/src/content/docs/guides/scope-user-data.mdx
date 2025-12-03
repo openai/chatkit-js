@@ -1,0 +1,37 @@
+---
+title: Scope user data
+description: Issue per-user secrets and enforce authorization on every ChatKit backend call.
+---
+
+Restrict every ChatKit request to the signed-in user. Generate short-lived client secrets and validate the user on each backend call before invoking your agent.
+
+## Issue per-user client secrets
+
+- Generate a unique, short-lived client secret for each signed-in user and rotate it on sign-out.
+- Avoid reusing secrets across accounts or devices.
+- For the hosted backend, the encoded identity in the client secret is the only user concept ChatKit knows about.
+
+## Attach user context to requests
+
+- For custom backends, inject tenant and user identifiers in headers inside your `api.fetch` override.
+- Validate those identifiers server-side before fulfilling the request or accessing prior history.
+
+```ts
+const auth = getUserAuth();
+
+const { control } = useChatKit({
+  api: {
+    url: 'https://your-domain.com/chatkit/api',
+    fetch(url: string, options: RequestInit) {
+      return fetch(url, {
+        ...options,
+        headers: {
+          ...options.headers,
+          "Authorization": `Bearer ${auth.token}`,
+          "X-User-ID": auth.userId,
+        },
+      });
+    },
+  },
+});
+```

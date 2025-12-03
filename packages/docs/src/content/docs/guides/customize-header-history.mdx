@@ -1,0 +1,36 @@
+---
+title: Header and history
+description: Control the ChatKit header, add actions, and configure the history view.
+---
+
+Toggle the built-in header or add navigation/context buttons to match your app. The header shows either a **New chat** or **History** button depending on the active view.
+
+## Custom header actions
+
+You can add one custom left action and one right action. The icon is a [HeaderIcon](../api/openai/chatkit/type-aliases/headericon). If you need more control, disable the header and build your own.
+
+```jsx
+const options: Partial<ChatKitOptions> = {
+  header: {
+    enabled: true,
+    leftAction: {
+      icon: "settings-cog",
+      onClick: () => openProfileSettings(),
+    },
+    rightAction: {
+      icon: "home",
+      onClick: () => openHomePage(),
+    },
+  },
+};
+```
+
+## History controls
+
+When history is enabled, the history button appears in the header. Use `showDelete` and `showRename` to control which actions are available in the history view.
+
+```jsx
+const options: Partial<ChatKitOptions> = {
+  history: { enabled: true, showDelete: true, showRename: true },
+};
+```

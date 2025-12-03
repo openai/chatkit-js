@@ -1,11 +1,11 @@
 ---
-title: Methods
-description: Call ChatKit imperative helpers from React or the web component.
+title: Invoke ChatKit methods
+description: Call ChatKit methods for sending actions, messages, and refresh requests.
 ---
 
 import { TabItem, Tabs } from '@astrojs/starlight/components';
 
-ChatKit exposes a compact set of imperative helpers for tasks that fall outside the declarative flow, such as switching threads, sending composed messages, or manually syncing data. These helpers are exposed on both the `useChatKit` hook and the `<openai-chatkit>` web component.
+Call ChatKit methods from your app when you need to steer ChatKit outside the normal render flow—sending a user message, forwarding an action, or forcing a refresh. The same helpers exist on `useChatKit` and the `<openai-chatkit>` web component.
 
 <Tabs syncKey="methods-target">
 <TabItem label="React">
@@ -13,16 +13,18 @@ ChatKit exposes a compact set of imperative helpers for tasks that fall outside 
 ```tsx
 import { ChatKit, useChatKit } from '@openai/chatkit-react';
 
-export function Inbox({ clientToken }: { clientToken: string }) {
+export function Inbox() {
   const {
     control,
-    focusComposer,
-    setThreadId,
-    sendUserMessage,
-    setComposerValue,
-    fetchUpdates,
     sendCustomAction,
-  } = useChatKit({ api: { clientToken } });
+    sendUserMessage,
+    fetchUpdates,
+    setThreadId,
+    setComposerValue,
+    focusComposer,
+  } = useChatKit({
+    // ...
+  });
 
   return <ChatKit control={control} className="h-[600px]" />;
 }
@@ -34,40 +36,51 @@ export function Inbox({ clientToken }: { clientToken: string }) {
 ```ts
 const chatkit = document.getElementById('my-chat') as OpenAIChatKit;
 
-await chatkit.focusComposer();
-await chatkit.setThreadId(null); // new chat
-await chatkit.setThreadId('thread_123');
-await chatkit.sendUserMessage({ text: 'Hello there!' });
-await chatkit.setComposerValue({ text: 'Draft message' });
-await chatkit.fetchUpdates();
 await chatkit.sendCustomAction({ type: 'refresh-dashboard', payload: { page: 'settings' } });
+await chatkit.sendUserMessage({ text: 'Hello there!' });
+await chatkit.fetchUpdates();
+await chatkit.setThreadId('thread_123');
+await chatkit.setComposerValue({ text: 'Draft message' });
+await chatkit.focusComposer();
 ```
 
 </TabItem>
 </Tabs>
 
-## Method reference
+## Programmatically set or send a user message
 
-### `focusComposer()`
-Focuses the ChatKit composer input. The method resolves once the focus request is delivered.
+`setComposerValue({ text, reply, attachments })`  
+Prefills the composer without sending. Use it to drop in suggested replies, recover an autosave, or pre-load attachments before the user clicks Send.
 
-:::note
-Focusing the composer may not work reliably on mobile browsers because many mobile platforms block programmatic focus routines outside of direct user gestures.
-:::
+`sendUserMessage({ text, reply?, attachments?, newThread? })`  
+Submits a message immediately, just as if the user pressed Send. Pass `newThread: true` to start a fresh conversation instead of continuing the current one.
 
-### `setThreadId(threadId: string | null)`
-Loads an existing thread or passes `null` to start a new draft conversation. Useful when a user selects a thread in your own navigation UI.
+Common cases:
+- Fire a message after speech-to-text completes instead of waiting for another click.
+- Trigger a templated follow-up (for example, “Summarize this call”) from a custom button outside ChatKit.
+- Kick off a new chat when a workflow finishes by sending the first message with `newThread: true`.
 
-### `sendUserMessage({ text, reply, attachments, newThread })`
-Sends a message as the current user. Supply `reply` (to be displayed as quoted text) when responding to an assistant message, `attachments` with uploaded attachment descriptors, and `newThread: true` to force creation of a new thread.
+## Trigger a response stream without a user message
 
-### `setComposerValue({ text, reply, attachments })`
-Replaces the composer contents without sending. Handy for drafting suggested replies or restoring saved state.
+Use `sendCustomAction(action, itemId?)` to dispatch an arbitrary action payload back to your backend, optionally namespaced to a widget item ID.
 
-### `fetchUpdates()`
-Requests new events from your backend immediately instead of waiting for the normal polling cadence. Call this after mutating the thread externally (for example, when importing history).
+Your backend can treat this like any other ChatKit action: run tools, update thread state, and stream a response that appears in the chat. This is useful for “system” events (refresh a dashboard, retry a tool) that should not show up as user-authored messages.
 
-### `sendCustomAction(action, itemId?)`
-Dispatches an arbitrary action payload back to your backend, optionally namespaced to a widget item ID. Use this to react to UI events (button clicks, widget commands) that require server-side handling.
+## Sync ChatKit state after out-of-band updates
 
-All methods return `Promise<void>` and can be awaited to ensure the call completes before performing follow-up logic.
+`fetchUpdates()` requests new events from your backend immediately instead of waiting for the normal polling cadence. Call this after mutating the thread outside of ChatKit (for example, importing history, locking a thread via an admin endpoint, or resolving a tool request server-side).
+
+## Change the active thread
+
+`setThreadId(threadId: string | null)`  
+Loads an existing thread or passes `null` to start a new draft conversation. Use it when a user picks a thread from your own inbox list, or when you want a “New chat” button outside the ChatKit UI.
+
+## Programmatically focus the composer
+
+`focusComposer()`  
+Focuses the ChatKit composer input. The promise resolves once the focus request is delivered. On mobile browsers, programmatic focus may be blocked outside user gestures.
+
+
+## Notes:
+
+All methods return `Promise<void>` and reject if invoked while ChatKit is busy (for example, loading a thread or streaming a response).

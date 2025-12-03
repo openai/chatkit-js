@@ -1,0 +1,26 @@
+---
+title: Start screen
+description: Configure the greeting and suggested prompts shown when a new thread opens.
+---
+
+Guide first-time users with a greeting and suggested prompts when a new thread is opened. The start screen prompt icon is a [ChatKitIcon](../api/openai/chatkit/type-aliases/chatkiticon).
+
+```js
+const options: Partial<ChatKitOptions> = {
+  startScreen: {
+    greeting: "What can I help you build today?",
+    prompts: [
+      {
+        label: "Check a ticket status",
+        prompt: "Can you help me check on the status of a ticket?",
+        icon: "search",
+      },
+      {
+        label: "Create a ticket",
+        prompt: "Can you help me create a new support ticket?",
+        icon: "write",
+      },
+    ],
+  },
+};
+```
