@@ -1,0 +1,121 @@
+---
+title: Customize ChatKit
+description: Tailor ChatKit’s theme, layout, composer, and message actions from a single options object.
+---
+
+import { TabItem, Tabs } from '@astrojs/starlight/components';
+
+ChatKit is fully configurable through the options object you pass in React (`useChatKit`) or on the web component (`chatkit.setOptions`). Use the [ChatKit Playground](https://chatkit.studio/playground) to experiment with settings and copy a ready-to-use configuration.
+
+<Tabs syncKey="customize-language">
+<TabItem label="React">
+
+```tsx
+import { useChatKit } from '@openai/chatkit-react';
+
+const { control } = useChatKit({
+  theme: {
+    colorScheme: 'dark',
+    radius: 'round',
+    color: {
+      accent: { primary: '#8B5CF6', level: 2 },
+    },
+  },
+  header: {
+    enabled: true,
+    rightAction: {
+      icon: 'light-mode',
+      onClick: () => console.log('Toggle theme'),
+    },
+  },
+  history: {
+    enabled: true,
+    showDelete: true,
+    showRename: true,
+  },
+  startScreen: {
+    greeting: 'How can we help?',
+    prompts: [
+      {
+        label: 'Troubleshoot an issue',
+        prompt: 'Help me fix an issue',
+        icon: 'lifesaver',
+      },
+      {
+        label: 'Request a feature',
+        prompt: 'I have an idea',
+        icon: 'lightbulb',
+      },
+    ],
+  },
+  composer: {
+    placeholder: 'Ask the assistant…',
+  },
+  threadItemActions: {
+    feedback: true,
+    retry: true,
+  },
+});
+```
+
+</TabItem>
+<TabItem label="Web component">
+
+```js
+chatkit.setOptions({
+  theme: {
+    colorScheme: 'dark',
+    radius: 'round',
+    color: {
+      accent: { primary: '#8B5CF6', level: 2 },
+    },
+  },
+  header: {
+    enabled: true,
+    rightAction: {
+      icon: 'light-mode',
+      onClick: () => console.log('Toggle theme'),
+    },
+  },
+  history: {
+    enabled: true,
+    showDelete: true,
+    showRename: true,
+  },
+  startScreen: {
+    greeting: 'How can we help?',
+    prompts: [
+      {
+        label: 'Troubleshoot an issue',
+        prompt: 'Help me fix an issue',
+        icon: 'lifesaver',
+      },
+      {
+        label: 'Request a feature',
+        prompt: 'I have an idea',
+        icon: 'lightbulb',
+      },
+    ],
+  },
+  composer: {
+    placeholder: 'Ask the assistant…',
+  },
+  threadItemActions: {
+    feedback: true,
+    retry: true,
+  },
+});
+```
+
+</TabItem>
+</Tabs>
+
+## Key areas to configure
+
+- **Theme** — Tune the appearance with the [`theme` options reference](/api/@openai/chatkit/type-aliases/ThemeOption/).
+- **Header & history** — Manage layout and browsing with the [`header` options reference](/api/@openai/chatkit/type-aliases/HeaderOption/) and [`history` options reference](/api/@openai/chatkit/type-aliases/HistoryOption/).
+- **Start screen** — Greet users and highlight actions via the [`startScreen` options reference](/api/@openai/chatkit/type-aliases/StartScreenOption/).
+- **Composer** — Configure inputs, tools, model picker, and mentions through the [`composer` options reference](/api/@openai/chatkit/type-aliases/ComposerOption/).
+- **Thread item actions** — Control feedback and retry behavior with the [`threadItemActions` options reference](/api/@openai/chatkit/type-aliases/ThreadItemActionsOption/).
+
+

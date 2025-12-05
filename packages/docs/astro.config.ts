@@ -40,62 +40,20 @@ const typeDocConfig: StarlightTypeDocOptions['typeDoc'] = {
 
 const sidebar = [
   { label: 'Overview', link: '/' },
-  {
-    label: 'Authenticate users',
-    collapsed: true,
-    items: [
-      {
-        label: 'Hosted backend (client secrets)',
-        link: '/guides/authenticate-hosted',
-      },
-      {
-        label: 'Custom backend (custom fetch)',
-        link: '/guides/authenticate-custom',
-      },
-    ],
-  },
-  {
-    label: 'Customize',
-    collapsed: true,
-    items: [
-      { label: 'Overview', link: '/guides/customize' },
-      { label: 'Theme', link: '/guides/customize-theme' },
-      { label: 'Header & history', link: '/guides/customize-header-history' },
-      { label: 'Start screen', link: '/guides/customize-start-screen' },
-      { label: 'Composer', link: '/guides/customize-composer' },
-      {
-        label: 'Thread item actions',
-        link: '/guides/customize-thread-item-actions',
-      },
-    ],
-  },
-  {
-    label: 'Connect to your app',
-    collapsed: true,
-    items: [
-      { label: 'Register callbacks', link: '/guides/register-callbacks' },
-      { label: 'Call ChatKit methods', link: '/guides/methods' },
-      {
-        label: 'Handle runtime events',
-        link: '/guides/runtime-events',
-      },
-    ],
-  },
-  {
-    label: 'Go live',
-    collapsed: true,
-    items: [
-      { label: 'Overview', link: '/guides/go-live' },
-      { label: 'Provide domain keys', link: '/guides/provide-domain-keys' },
-      { label: 'Monitor logs', link: '/guides/monitor-logs' },
-      // { label: 'Update CSP settings', link: '/guides/update-csp-settings' },
-      // { label: 'Scope user data', link: '/guides/scope-user-data' },
-      { label: 'Localization', link: '/guides/localization' },
-    ],
-  },
+  { label: 'Quickstart', link: '/quickstart' },
+  { label: 'Customize', link: '/customize' },
   chatkitTypeDocSidebarGroup,
   {
-    label: 'Custom Backends',
+    label: 'Managed backend',
+    items: [
+      {
+        label: 'ChatKit API',
+        link: 'https://platform.openai.com/docs/guides/chatkit',
+      },
+    ],
+  },
+  {
+    label: 'Self-hosted backend',
     items: [
       {
         label: 'Python SDK',
