@@ -12,7 +12,7 @@ import { Code, TabItem, Tabs } from '@astrojs/starlight/components';
       <div>
         <h2 class="title">Quickstart</h2>
         <p>Build your first chat application in minutes.</p>
-        <a href={`https://platform.openai.com/docs/guides/chatkit`} class="openai-hero-cta">Let's build</a>
+        <a href="quickstart" class="openai-hero-cta">Let's build</a>
       </div>
     </div>
     <div class="openai-hero-code flex-1 overflow-x-scroll">
@@ -22,7 +22,7 @@ import { Code, TabItem, Tabs } from '@astrojs/starlight/components';
         ```tsx
         function MyChat({ clientToken }) {
           const { control } = useChatKit({ 
-            api: { clientToken } 
+            api: { url, domainKey } 
           });
 
           return (
@@ -40,7 +40,7 @@ import { Code, TabItem, Tabs } from '@astrojs/starlight/components';
         ```js
         function InitChatkit({ clientToken }) {
           const chatkit = document.createElement('openai-chatkit');
-          chatkit.setOptions({ api: { clientToken } });
+          chatkit.setOptions({ api: { url, domainKey } });
           chatkit.classList.add('h-[600px]', 'w-[320px]');
           document.body.appendChild(chatkit);
         }     
@@ -78,11 +78,11 @@ You don’t need to build custom UIs, manage low-level chat state, or patch toge
 Just add the ChatKit component, give it a client token, and customize the chat experience as needed, no extra work needed.
 
 
-## Hosted vs. custom backend
+## Managed vs. self-hosted backend
 
 Use ChatKit with an OpenAI-hosted backend (workflows built in Agent Builder) or with your own backend running on your infrastructure and inference stack using the ChatKit Python SDK.
 
-|                         | Hosted backend | Custom backend |
+|                         | OpenAI-hosted backend | Self-hosted backend |
 | ----------------------- | -------------- | -------------- |
 | Best for                | Fastest setup with OpenAI-managed infra | Maximum control, custom workflows, and proprietary data paths |
 | Who runs the chat server?| OpenAI         | You            |
