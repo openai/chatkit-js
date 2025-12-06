@@ -61,7 +61,7 @@ const sidebar = [
         label: 'ChatKit (React component)',
         link: 'quick-reference/chatkit-component/',
       },
-    ]
+    ],
   },
   chatkitTypeDocSidebarGroup,
   {

@@ -114,7 +114,7 @@ export type ChatKitOptions = {
 export type HeaderOption = {
   /**
    * Enables or disables the header UI.
-   * 
+   *
    * @default true
    */
   enabled?: boolean;
@@ -136,7 +136,7 @@ export type HeaderOption = {
 
   /**
    * Configuration for an additional custom button on the left side of the header.
-   * 
+   *
    * @see {@link HeaderIcon}
    */
   leftAction?: {
@@ -145,7 +145,7 @@ export type HeaderOption = {
   };
   /**
    * Configuration for an additional custom button on the right side of the header.
-   * 
+   *
    * @see {@link HeaderIcon}
    */
   rightAction?: {
@@ -173,7 +173,7 @@ export type StartScreenOption = {
 
   /**
    * A list of starter prompts to show above the composer input when in the new thread view.
-   * 
+   *
    * @see {@link StartScreenPrompt}
    */
   prompts?: StartScreenPrompt[];
@@ -275,14 +275,14 @@ export type ComposerOption = {
   /**
    * When provided a list of tool options, the user will be able to select a tool
    * from a menu in the composer.
-   * 
+   *
    * @see {@link ToolOption}
    */
   tools?: ToolOption[];
 
-  /** 
+  /**
    * A list of models that users can choose from before sending a message.
-   * 
+   *
    * @see {@link ModelOption}
    */
   models?: ModelOption[];
@@ -631,7 +631,7 @@ export type EventHandler<K extends keyof ChatKitEvents> = (
 export type ThemeOption = {
   /**
    * The color scheme to use for the ChatKit UI.
-   * 
+   *
    * @see {@link ColorScheme}
    * @default "light"
    */
@@ -682,7 +682,7 @@ export type ColorOption = {
    */
   grayscale?: GrayscaleOptions;
   /**
-   * @see {@link AccentColor} 
+   * @see {@link AccentColor}
    */
   accent?: AccentColor;
   /**
@@ -762,7 +762,7 @@ export type TranslatedLocale =
 /**
  * All locales that are accepted by ChatKit without falling back to English.
  * Includes language codes that are resolved by ChatKit to a translated locale.
- * 
+ *
  * @see {@link TranslatedLocale}
  */
 export type SupportedLocale =
@@ -824,7 +824,7 @@ export type SupportedLocale =
  *
  * @example
  * **Imperative setup**
- * 
+ *
  * ```ts
  * const chatkit = document.createElement('openai-chatkit');
  * chatkit.setOptions({ /* ... *\/ });
@@ -833,7 +833,7 @@ export type SupportedLocale =
  *
  * @example
  * **Declarative markup**
- * 
+ *
  * ```html
  * <openai-chatkit id="chatkit-container"></openai-chatkit>
  * <script type="module">
