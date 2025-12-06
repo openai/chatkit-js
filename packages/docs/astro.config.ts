@@ -40,8 +40,29 @@ const typeDocConfig: StarlightTypeDocOptions['typeDoc'] = {
 
 const sidebar = [
   { label: 'Overview', link: '/' },
-  { label: 'Quickstart', link: '/quickstart' },
+  { label: 'Quick start', link: '/quickstart' },
   { label: 'Customize', link: '/customize' },
+  {
+    label: 'Quick API Reference',
+    items: [
+      {
+        label: 'ChatKitOptions',
+        link: 'api/openai/chatkit/type-aliases/chatkitoptions/',
+      },
+      {
+        label: 'OpenAIChatKit (Web Component)',
+        link: 'api/openai/chatkit/interfaces/openaichatkit/',
+      },
+      {
+        label: 'useChatKit (React hook)',
+        link: 'quick-reference/use-chatkit/',
+      },
+      {
+        label: 'ChatKit (React component)',
+        link: 'quick-reference/chatkit-component/',
+      },
+    ]
+  },
   chatkitTypeDocSidebarGroup,
   {
     label: 'Managed backend',
@@ -84,13 +105,13 @@ export default defineConfig({
     starlight({
       plugins: [
         chatkitStarlightTypeDoc({
-          sidebar: { label: 'API Reference' },
+          sidebar: { label: 'Complete API reference', collapsed: true },
           entryPoints: ['../chatkit', '../chatkit-react'],
           tsconfig: '../chatkit/tsconfig.json',
           typeDoc: typeDocConfig,
         }),
       ],
-      title: 'OpenAI Agent Embeds',
+      title: 'OpenAI ChatKit',
       components: {
         SiteTitle: './src/components/Title.astro',
         PageTitle: './src/components/PageTitle.astro',

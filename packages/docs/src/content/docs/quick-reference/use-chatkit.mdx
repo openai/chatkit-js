@@ -1,0 +1,84 @@
+---
+title: useChatKit
+description: React hook that bridges ChatKit’s web component into React apps.
+---
+
+```ts
+function useChatKit(options: UseChatKitOptions): UseChatKitReturn
+```
+
+`useChatKit` prepares the `<openai-chatkit>` element for React. It keeps the
+options you provide stable between renders, lifts out event handlers, and
+returns the imperative helpers exposed by the underlying element.
+
+## Parameters
+
+:::note[Type snapshot]
+[`UseChatKitOptions`](../../api/openai/chatkit-react/type-aliases/usechatkitoptions/) is computed from several runtime helpers; the essentials are summarized here.
+:::
+
+```ts
+type UseChatKitOptions = ChatKitOptions &
+  Partial<{
+    onReady: () => void;
+    onResponseStart: () => void;
+    onResponseEnd: () => void;
+    onThreadChange: (event: { threadId: string | null }) => void;
+    onThreadLoadStart: (event: { threadId: string }) => void;
+    onThreadLoadEnd: (event: { threadId: string }) => void;
+    onError: (event: { error: Error }) => void;
+    onLog: (event: { name: string; data?: Record<string, unknown> }) => void;
+    onEffect: (event: { name: string; data?: Record<string, unknown> }) => void;
+  }>;
+```
+
+`useChatKit` accepts a single `options` argument of this type—combining the full [`ChatKitOptions`](../../api/openai/chatkit/type-aliases/chatkitoptions/) surface with camel-cased event handlers such as `onResponseStart`. These handlers are simply React-friendly aliases for the browser events documented in [`ChatKitEvents`](../../api/openai/chatkit/type-aliases/chatkitevents/).
+
+#### See
+
+[ChatKitOptions](../../api/openai/chatkit/type-aliases/chatkitoptions/)
+
+[ChatKitEvents](../../api/openai/chatkit/type-aliases/chatkitevents/)
+
+## Returns
+
+:::note[Type snapshot]
+[`UseChatKitReturn`](../../api/openai/chatkit-react/interfaces/usechatkitreturn/) is a dynamically generated type; the full structure is spelled out below for clarity.
+:::
+
+```ts
+type UseChatKitReturn = {
+  focusComposer: () => Promise<void>;
+  setThreadId: (threadId: string | null) => Promise<void>;
+  sendUserMessage: (params: {
+    text: string;
+    reply?: string;
+    attachments?: Attachment[];
+    newThread?: boolean;
+  }) => Promise<void>;
+  setComposerValue: (params: {
+    text: string;
+    reply?: string;
+    attachments?: Attachment[];
+  }) => Promise<void>;
+  fetchUpdates: () => Promise<void>;
+  sendCustomAction: (
+    action: { type: string; payload?: Record<string, unknown> },
+    itemId?: string,
+  ) => Promise<void>;
+  control: ChatKitControl;
+  ref: React.RefObject<OpenAIChatKit | null>;
+};
+```
+
+Together these fields give you a subset of [methods](../../api/openai/chatkit/interfaces/openaichatkit/#methods) from the `<openai-chatkit>` web component, a `control` bundle (stable options plus extracted handlers), and a `ref` that you can forward to `<ChatKit control={...} ref={...}>`.
+
+#### See
+
+[OpenAIChatKit (Web Component)](../../api/openai/chatkit/interfaces/openaichatkit/)
+
+[ChatKit (React component)](../chatkit-component/)
+
+[Attachment](../../api/openai/chatkit/type-aliases/attachment/)
+
+[ChatKitControl](../../api/openai/chatkit-react/type-aliases/chatkitcontrol/)
