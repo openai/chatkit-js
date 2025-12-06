@@ -2,9 +2,16 @@ import type * as Widgets from './widgets';
 
 export type { Widgets };
 
+/**
+ * Configuration options for initializing ChatKit.
+ * Explore and test them in the playground: https://chatkit.studio/playground
+ */
 export type ChatKitOptions = {
   /**
    * Configuration for how ChatKit communicates with your backend.
+   *
+   * @see {@link CustomApiConfig}
+   * @see {@link HostedApiConfig}
    */
   api: CustomApiConfig | HostedApiConfig;
 
@@ -12,6 +19,7 @@ export type ChatKitOptions = {
    * Locale override for ChatKit UI. If not provided, the browser's locale
    * will be used. If the locale is not supported, will fall back to English.
    *
+   * @see {@link SupportedLocale}
    * @default navigator.language
    */
   locale?: SupportedLocale;
@@ -19,6 +27,8 @@ export type ChatKitOptions = {
   /**
    * Visual appearance configuration options for ChatKit.
    *
+   * @see {@link ColorScheme}
+   * @see {@link ThemeOption}
    * @default "light"
    */
   theme?: ColorScheme | ThemeOption;
@@ -104,6 +114,8 @@ export type ChatKitOptions = {
 export type HeaderOption = {
   /**
    * Enables or disables the header UI.
+   *
+   * @default true
    */
   enabled?: boolean;
 
@@ -124,6 +136,8 @@ export type HeaderOption = {
 
   /**
    * Configuration for an additional custom button on the left side of the header.
+   *
+   * @see {@link HeaderIcon}
    */
   leftAction?: {
     icon: HeaderIcon;
@@ -131,6 +145,8 @@ export type HeaderOption = {
   };
   /**
    * Configuration for an additional custom button on the right side of the header.
+   *
+   * @see {@link HeaderIcon}
    */
   rightAction?: {
     icon: HeaderIcon;
@@ -157,6 +173,8 @@ export type StartScreenOption = {
 
   /**
    * A list of starter prompts to show above the composer input when in the new thread view.
+   *
+   * @see {@link StartScreenPrompt}
    */
   prompts?: StartScreenPrompt[];
 };
@@ -257,10 +275,16 @@ export type ComposerOption = {
   /**
    * When provided a list of tool options, the user will be able to select a tool
    * from a menu in the composer.
+   *
+   * @see {@link ToolOption}
    */
   tools?: ToolOption[];
 
-  /** A list of models that users can choose from before sending a message. */
+  /**
+   * A list of models that users can choose from before sending a message.
+   *
+   * @see {@link ModelOption}
+   */
   models?: ModelOption[];
 };
 
@@ -607,6 +631,8 @@ export type EventHandler<K extends keyof ChatKitEvents> = (
 export type ThemeOption = {
   /**
    * The color scheme to use for the ChatKit UI.
+   *
+   * @see {@link ColorScheme}
    * @default "light"
    */
   colorScheme?: ColorScheme;
@@ -642,14 +668,26 @@ export type ThemeOption = {
 export type TypographyOption = {
   /** Base font size in pixels. */
   baseSize?: 14 | 15 | 16 | 17 | 18;
+  /**
+   * @see {@link FontObject}
+   */
   fontSources?: FontObject[];
   fontFamily?: string;
   fontFamilyMono?: string;
 };
 
 export type ColorOption = {
+  /**
+   * @see {@link GrayscaleOptions}
+   */
   grayscale?: GrayscaleOptions;
+  /**
+   * @see {@link AccentColor}
+   */
   accent?: AccentColor;
+  /**
+   * @see {@link SurfaceColors}
+   */
   surface?: SurfaceColors;
 };
 
@@ -724,6 +762,8 @@ export type TranslatedLocale =
 /**
  * All locales that are accepted by ChatKit without falling back to English.
  * Includes language codes that are resolved by ChatKit to a translated locale.
+ *
+ * @see {@link TranslatedLocale}
  */
 export type SupportedLocale =
   | TranslatedLocale
@@ -781,7 +821,27 @@ export type SupportedLocale =
 
 /**
  * A Web Component that serves as the entry point for a ChatKit integration.
- * * @noInheritDoc
+ *
+ * @example
+ * **Imperative setup**
+ *
+ * ```ts
+ * const chatkit = document.createElement('openai-chatkit');
+ * chatkit.setOptions({ /* ... *\/ });
+ * document.body.append(chatkit);
+ * ```
+ *
+ * @example
+ * **Declarative markup**
+ *
+ * ```html
+ * <openai-chatkit id="chatkit-container"></openai-chatkit>
+ * <script type="module">
+ *   const chatkit = document.getElementById('chatkit-container');
+ *   chatkit.setOptions({ /* ... *\/ });
+ * </script>
+ * ```
+ * @noInheritDoc
  */
 export interface OpenAIChatKit extends HTMLElement {
   /**

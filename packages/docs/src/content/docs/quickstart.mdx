@@ -1,103 +1,37 @@
 ---
-title: Quickstart
+title: Quick start
 description: Bring ChatKit online with either React or vanilla JavaScript.
 ---
 
 import { TabItem, Tabs } from '@astrojs/starlight/components';
 
-Follow these three steps to embed ChatKit. Use the tabs to switch between React and vanilla JavaScript examples.
-
-## 1. Add the ChatKit script
-
-<Tabs syncKey="quickstart-target">
-<TabItem label="React">
-
-Add the script to your root `index.html` so the `openai-chatkit` web component is registered:
+Paste the ChatKit script, render the component, and your chat UI is ready. Toggle between React and vanilla JavaScript below to see the full snippet for each setup.
 
 ```html
-<!-- public/index.html -->
+<!-- Add once to your root HTML -->
 <script
   src="https://cdn.platform.openai.com/deployments/chatkit/chatkit.js"
   async
 ></script>
 ```
 
-</TabItem>
-<TabItem label="Vanilla JS">
-
-Drop the script into your app's `index.html` before you initialize the component:
-
-```html
-<!-- index.html -->
-<script
-  src="https://cdn.platform.openai.com/deployments/chatkit/chatkit.js"
-  async
-></script>
-<div id="chat-root"></div>
-```
-
-</TabItem>
-</Tabs>
-
-## 2. Create ChatKit with your options
-
-This example connects to a self-hosted ChatKit server (implemented using the [ChatKit Python SDK](https://openai.github.io/chatkit-python/)). If you want to use the managed ChatKit service, follow the [ChatKit guide](https://platform.openai.com/docs/guides/chatkit).
-
 <Tabs syncKey="quickstart-target">
 <TabItem label="React">
-
-Use the React bindings to supply your ChatKit options for the self-hosted runtime (including how to fetch client secrets from your backend):
 
 ```bash
 npm install @openai/chatkit-react
 ```
 
 ```tsx
-import { useChatKit } from '@openai/chatkit-react';
-
-const { control } = useChatKit({
-  api: {
-    url: 'http://localhost:8000/chatkit',
-    domainKey: 'local-dev', // optional in dev; any string satisfies the types
-  },
-});
-```
-
-</TabItem>
-<TabItem label="Vanilla JS">
-
-Create the `openai-chatkit` element and point it at the same self-hosted runtime:
-
-```bash
-npm install @openai/chatkit
-```
-
-```js
-const chatkit = document.createElement('openai-chatkit');
-
-chatkit.setOptions({
-  api: {
-    url: 'http://localhost:8000/chatkit',
-    domainKey: 'local-dev', // optional in dev; any string satisfies the types
-  },
-});
-```
-
-</TabItem>
-</Tabs>
-
-## 3. Mount the ChatKit component
-
-<Tabs syncKey="quickstart-target">
-<TabItem label="React">
-
-Render the ChatKit component and pass along the `control` object returned from `useChatKit`:
-
-```tsx
-import { ChatKit } from '@openai/chatkit-react';
+import { ChatKit, useChatKit } from '@openai/chatkit-react';
 
 export function SupportChat() {
-  const { control } = useChatKit({ /* options from step 2 */ });
+  const { control } = useChatKit({
+    api: {
+      url: 'http://localhost:8000/chatkit',
+      domainKey: 'local-dev',
+    },
+  });
 
   return <ChatKit control={control} className="h-[600px] w-[360px]" />;
 }
@@ -106,48 +40,32 @@ export function SupportChat() {
 </TabItem>
 <TabItem label="Vanilla JS">
 
-Append the ChatKit element to the part of the DOM where you want the chat interface to appear:
+```bash
+npm install @openai/chatkit
+```
 
-```js
-const mountNode = document.getElementById('chat-root');
-mountNode.append(chatkit);
+```html
+<div id="chat-root"></div>
+<script type="module">
+  import '@openai/chatkit';
+
+  const chatkit = document.createElement('openai-chatkit');
+
+  chatkit.setOptions({
+    api: {
+      url: 'http://localhost:8000/chatkit',
+      domainKey: 'local-dev',
+    },
+  });
+
+  document.getElementById('chat-root')?.append(chatkit);
+</script>
 ```
 
 </TabItem>
 </Tabs>
 
-## 4. Listen for ChatKit events
-
-Subscribe to runtime events to keep your host app in sync with ChatKit.
-
-<Tabs syncKey="quickstart-target">
-<TabItem label="React">
-
-```tsx
-import { useChatKit } from '@openai/chatkit-react';
-
-const { control } = useChatKit({
-  // ...
-  onThreadChange: ({ threadId }) => {
-    console.log('Active thread changed to', threadId);
-  },
-});
-```
-
-</TabItem>
-<TabItem label="Vanilla JS">
-
-```js
-chatkit.addEventListener('chatkit.thread.change', (event) => {
-  const { threadId } = event.detail;
-  console.log('Active thread changed to', threadId);
-});
-```
-
-</TabItem>
-</Tabs>
-
-## Next steps
-
-At this point the ChatKit UI renders and is wired to your self-hosted endpoint, but it won't process messages until you bring a ChatKit server online. Stand up the backend with the Python quickstart: https://openai.github.io/chatkit-python/quickstart/
+:::note[Need a backend?]
+These snippets assume a self-hosted ChatKit runtime (for example via the [ChatKit Python SDK quick start](https://openai.github.io/chatkit-python/quickstart/)). For the managed service, head to the [ChatKit guide](https://platform.openai.com/docs/guides/chatkit).
+:::
 
