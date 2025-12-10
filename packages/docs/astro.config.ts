@@ -36,7 +36,7 @@ const typeDocConfig: StarlightTypeDocOptions['typeDoc'] = {
     private: true,
     external: false,
   },
-}
+};
 
 const sidebar = [
   { label: 'Overview', link: '/' },
@@ -65,20 +65,20 @@ const sidebar = [
   },
   chatkitTypeDocSidebarGroup,
   {
-    label: 'Managed backend',
+    label: 'Self-hosted backend',
     items: [
       {
-        label: 'ChatKit API',
-        link: 'https://platform.openai.com/docs/guides/chatkit',
+        label: 'ChatKit Python SDK',
+        link: 'https://openai.github.io/chatkit-python',
       },
     ],
   },
   {
-    label: 'Self-hosted backend',
+    label: 'OpenAI-hosted backend',
     items: [
       {
-        label: 'Python SDK',
-        link: 'https://openai.github.io/chatkit-python',
+        label: 'Managed ChatKit Docs',
+        link: 'https://platform.openai.com/docs/guides/chatkit',
       },
     ],
   },
