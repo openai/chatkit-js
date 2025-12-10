@@ -36,7 +36,7 @@ const typeDocConfig: StarlightTypeDocOptions['typeDoc'] = {
     private: true,
     external: false,
   },
-};
+}
 
 const sidebar = [
   { label: 'Overview', link: '/' },
@@ -119,6 +119,13 @@ export default defineConfig({
         Sidebar: './src/components/Sidebar.astro',
         MobileMenuFooter: './src/components/MobileFooter.astro',
       },
+      social: [
+        {
+          icon: 'github',
+          label: 'ChatKit.js',
+          href: 'https://github.com/openai/chatkit-js',
+        },
+      ],
       locales: {
         root: {
           label: 'English',
