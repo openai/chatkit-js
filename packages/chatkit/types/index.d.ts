@@ -354,7 +354,11 @@ export type StartScreenPrompt = {
   label: string;
   /** Text inserted into the composer when the prompt is chosen. */
   prompt: string;
-  /** Optional icon displayed with the prompt. */
+  /**
+   * Optional icon displayed with the prompt.
+   *
+   * @see {@link ChatKitIcon}
+   */
   icon?: ChatKitIcon;
 };
 
@@ -446,7 +450,11 @@ export type ToolOption = {
   /** Label displayed in the tool menu */
   label: string;
 
-  /** Icon displayed next to the tool in the menu. */
+  /**
+   * Icon displayed next to the tool in the menu.
+   *
+   * @see {@link ChatKitIcon}
+   */
   icon: ChatKitIcon;
 
   /** Optional label displayed in the button when the tool is selected. */
@@ -609,6 +617,8 @@ export type CustomApiConfig = {
 
   /**
    * How attachments will be uploaded to your server. Required when attachments are enabled.
+   *
+   * @see {@link FileUploadStrategy}
    */
   uploadStrategy?: FileUploadStrategy;
 };
