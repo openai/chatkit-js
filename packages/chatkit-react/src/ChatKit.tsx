@@ -27,6 +27,7 @@ const EVENT_HANDLER_MAP: {
   'chatkit.thread.change': 'onThreadChange',
   'chatkit.thread.load.start': 'onThreadLoadStart',
   'chatkit.thread.load.end': 'onThreadLoadEnd',
+  'chatkit.tool.change': 'onToolChange',
   'chatkit.ready': 'onReady',
   'chatkit.effect': 'onEffect',
 };

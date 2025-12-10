@@ -1019,6 +1019,9 @@ export type ChatKitEvents = {
   /** Emitted when ChatKit finished loading a thread. */
   'chatkit.thread.load.end': CustomEvent<{ threadId: string }>;
 
+  /** Emitted when the selected composer tool changes. */
+  'chatkit.tool.change': CustomEvent<{ toolId: string | null }>;
+
   /** Diagnostic events that can be used for logging/analytics. */
   'chatkit.log': CustomEvent<{
     name: string;
