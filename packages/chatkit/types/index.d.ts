@@ -369,8 +369,7 @@ export type StartScreenPrompt = {
 
 /**
  * Attachment associated with a user message. When passed to `sendUserMessage` or
- * `setComposerValue`, it must already be uploaded by your server. We do not currently
- * support attaching raw Files to a message.
+ * `setComposerValue`, it must already be uploaded by your server.
  */
 export type Attachment =
   | {
@@ -899,6 +898,7 @@ export interface OpenAIChatKit extends HTMLElement {
   sendUserMessage(params: {
     text: string;
     reply?: string;
+    /** Attachment associated with the user message. It must already be uploaded by your server. */
     attachments?: Attachment[];
     newThread?: boolean;
   }): Promise<void>;
@@ -907,7 +907,15 @@ export interface OpenAIChatKit extends HTMLElement {
   setComposerValue(params: {
     text: string;
     reply?: string;
+    /** Attachment associated with the user input. It must already be uploaded by your server. */
     attachments?: Attachment[];
+    /**
+     * Uploads the provided files and attaches them to the composer input. Use this option
+     * instead of `attachments` when the files still need to be sent to the server.
+     * Each file must already carry the correct MIME type metadata to be uploaded and
+     * rendered correctly.
+     */
+    files?: File[];
   }): Promise<void>;
 
   /**
