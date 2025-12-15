@@ -60,12 +60,15 @@ type UseChatKitReturn = {
     text: string;
     reply?: string;
     attachments?: Attachment[];
+    files?: File[];
   }) => Promise<void>;
   fetchUpdates: () => Promise<void>;
   sendCustomAction: (
     action: { type: string; payload?: Record<string, unknown> },
     itemId?: string,
   ) => Promise<void>;
+  showHistory: () => Promise<void>;
+  hideHistory: () => Promise<void>;
   control: ChatKitControl;
   ref: React.RefObject<OpenAIChatKit | null>;
 };
