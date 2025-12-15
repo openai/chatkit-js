@@ -51,16 +51,22 @@ type UseChatKitReturn = {
   focusComposer: () => Promise<void>;
   setThreadId: (threadId: string | null) => Promise<void>;
   sendUserMessage: (params: {
-    text: string;
+    text?: string;
+    content?: UserMessageContent[];
     reply?: string;
     attachments?: Attachment[];
     newThread?: boolean;
+    toolChoice?: ToolChoice;
+    model?: string;
   }) => Promise<void>;
   setComposerValue: (params: {
-    text: string;
+    text?: string;
+    content?: UserMessageContent[];
     reply?: string;
     attachments?: Attachment[];
     files?: File[];
+    selectedToolId?: string;
+    selectedModelId?: string;
   }) => Promise<void>;
   fetchUpdates: () => Promise<void>;
   sendCustomAction: (
