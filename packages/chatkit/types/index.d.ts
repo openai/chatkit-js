@@ -359,8 +359,14 @@ export type ChatKitIcon =
 export type StartScreenPrompt = {
   /** Human-readable label shown for the prompt. */
   label: string;
-  /** Text inserted into the composer when the prompt is chosen. */
-  prompt: string;
+  /**
+   * Preset message content submitted as a user message when selected.
+   * Provide a simple string for most prompts; use structured `UserMessageContent`
+   * segments only when you need advanced rich input (e.g. prefilled tags).
+   *
+   * @see {@link UserMessageContent}
+   */
+  prompt: string | UserMessageContent[];
   /**
    * Optional icon displayed with the prompt.
    *
@@ -527,6 +533,30 @@ export type Entity = {
   data?: Record<string, string>;
   // Later: optional entity-specific tag display options (e.g. tag prefix)
 };
+
+/**
+ * Identifies the tool that should run for a single message submission.
+ * Mirrors the `ToolChoice` shape exposed by the chatkit-python SDK.
+ */
+export type ToolChoice = { id: string }
+
+/**
+ * Structured user input segments for sending rich content (text or tags).
+ * Mirrors the `UserMessageContent` union from the chatkit-python SDK.
+ */
+export type UserMessageContent =
+  | {
+      type: "input_text"
+      text: string
+    }
+  | {
+      type: "input_tag"
+      text: string
+      id: string
+      group?: string
+      data?: Record<string, unknown>
+      interactive?: boolean
+    }
 
 /**
  * A webfont source used by ChatKit typography.
@@ -905,16 +935,27 @@ export interface OpenAIChatKit extends HTMLElement {
 
   /** Sends a user message. */
   sendUserMessage(params: {
-    text: string;
+    text?: string;
+    /** Use instead of `text` when sending structured content such as entity tags. */
+    content?: UserMessageContent[];
     reply?: string;
     /** Attachment associated with the user message. It must already be uploaded by your server. */
     attachments?: Attachment[];
     newThread?: boolean;
+    /**
+     * `toolChoice` and `model` map directly to backend `inference_options` for the submitted
+     * user message. These options do not update the selected tool or model in the composer.
+     * Use `setComposerValue({ selectedToolId, selectedModelId })` for selection in the composer.
+     */
+    toolChoice?: ToolChoice;
+    model?: string;
   }): Promise<void>;
 
   /** Sets the composer's content without sending a message. */
   setComposerValue(params: {
-    text: string;
+    text?: string;
+    /** Use instead of `text` when setting structured content such as entity tags. */
+    content?: UserMessageContent[];
     reply?: string;
     /** Attachment associated with the user input. It must already be uploaded by your server. */
     attachments?: Attachment[];
@@ -925,6 +966,8 @@ export interface OpenAIChatKit extends HTMLElement {
      * rendered correctly.
      */
     files?: File[];
+    selectedToolId?: string;
+    selectedModelId?: string;
   }): Promise<void>;
 
   /**
