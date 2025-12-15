@@ -919,6 +919,19 @@ export interface OpenAIChatKit extends HTMLElement {
   }): Promise<void>;
 
   /**
+   * Opens the thread history view.
+   *
+   * Intended for apps with a custom header or navigation that need to
+   * show history programmatically (for example, from a custom History button).
+   */
+  showHistory(): Promise<void>;
+
+  /**
+   * Closes the thread history view and returns to the current thread.
+   */
+  hideHistory(): Promise<void>;
+
+  /**
    * Manually fetches updates from the server.
    *
    * Use this when you've manually updated the thread or thread items and need to sync them with the client.
