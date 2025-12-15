@@ -538,7 +538,7 @@ export type Entity = {
  * Identifies the tool that should run for a single message submission.
  * Mirrors the `ToolChoice` shape exposed by the chatkit-python SDK.
  */
-export type ToolChoice = { id: string }
+export type ToolChoice = { id: string };
 
 /**
  * Structured user input segments for sending rich content (text or tags).
@@ -546,17 +546,17 @@ export type ToolChoice = { id: string }
  */
 export type UserMessageContent =
   | {
-      type: "input_text"
-      text: string
+      type: 'input_text';
+      text: string;
     }
   | {
-      type: "input_tag"
-      text: string
-      id: string
-      group?: string
-      data?: Record<string, unknown>
-      interactive?: boolean
-    }
+      type: 'input_tag';
+      text: string;
+      id: string;
+      group?: string;
+      data?: Record<string, unknown>;
+      interactive?: boolean;
+    };
 
 /**
  * A webfont source used by ChatKit typography.
