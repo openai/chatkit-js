@@ -37,7 +37,7 @@ export type ChatKitOptions = {
    * Accessible title for the ChatKit iframe element.
    * @default "Chat"
    */
-  frameTitle?: string
+  frameTitle?: string;
 
   /**
    * The ID of the thread to show when ChatKit is mounted or opened for the first time.
