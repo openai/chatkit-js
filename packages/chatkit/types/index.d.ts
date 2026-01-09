@@ -302,6 +302,7 @@ export type LucideIcon = `lucide:${string}`;
 
 /**
  * Built-in icon names used by ChatKit for buttons and UI affordances.
+ * @see {@link LucideIcon}
  */
 export type ChatKitIcon =
   | 'agent'
