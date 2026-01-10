@@ -34,6 +34,12 @@ export type ChatKitOptions = {
   theme?: ColorScheme | ThemeOption;
 
   /**
+   * Accessible title for the ChatKit iframe element.
+   * @default "Chat"
+   */
+  frameTitle?: string;
+
+  /**
    * The ID of the thread to show when ChatKit is mounted or opened for the first time.
    * Passing `null` will show the new thread view.
    *
@@ -289,7 +295,14 @@ export type ComposerOption = {
 };
 
 /**
+ * A Lucide icon identifier for ChatKit, in the form `lucide:<icon-name>`.
+ * Full icon list: https://lucide.dev/icons/
+ */
+export type LucideIcon = `lucide:${string}`;
+
+/**
  * Built-in icon names used by ChatKit for buttons and UI affordances.
+ * @see {@link LucideIcon}
  */
 export type ChatKitIcon =
   | 'agent'
@@ -354,7 +367,8 @@ export type ChatKitIcon =
   | 'wreath'
   | 'write'
   | 'write-alt'
-  | 'write-alt2';
+  | 'write-alt2'
+  | LucideIcon;
 
 export type StartScreenPrompt = {
   /** Human-readable label shown for the prompt. */
