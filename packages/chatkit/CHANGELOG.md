@@ -1,5 +1,12 @@
 # @openai/chatkit
 
+## 1.3.0
+
+### Minor Changes
+
+- 546f1d0: - Add support for Lucide icons via icon names with the `lucide:` prefix
+  - Add a `frameTitle` option
+
 ## 1.2.0
 
 ### Minor Changes
