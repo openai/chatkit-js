@@ -202,8 +202,19 @@ export type EntitiesOption = {
    * Powers tag autocomplete within the composer.
    */
   onTagSearch?: (query: string) => Promise<Entity[]>;
+
+  /**
+   * Whether to render a composer button that inserts "@" into
+   * the textarea and triggers a tag search on click.
+   * Only renders when {@link EntitiesOption.onTagSearch} is provided.
+   *
+   * @default false
+   */
+  showComposerMenu?: boolean;
+
   /** Called when a rendered entity is clicked. */
   onClick?: (entity: Entity) => void;
+
   /**
    * Use the Widget Studio (https://widget-studio.vercel.app/) to design
    * previews and copy the generated JSON into your integration.
@@ -292,6 +303,15 @@ export type ComposerOption = {
    * @see {@link ModelOption}
    */
   models?: ModelOption[];
+
+  dictation?: {
+    /**
+     * Whether dictation is enabled.
+     *
+     * @default false
+     */
+    enabled: boolean;
+  }
 };
 
 /**
