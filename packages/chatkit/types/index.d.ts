@@ -202,6 +202,16 @@ export type EntitiesOption = {
    * Powers tag autocomplete within the composer.
    */
   onTagSearch?: (query: string) => Promise<Entity[]>;
+
+  /**
+   * Whether to render a composer button that inserts "@" into
+   * the textarea and triggers a tag search on click.
+   * Only renders when {@link EntitiesOption.onTagSearch} is provided.
+   *
+   * @default false
+   */
+  showComposerMenu?: boolean;
+
   /** Called when a rendered entity is clicked. */
   onClick?: (entity: Entity) => void;
   /**
