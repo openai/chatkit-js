@@ -1,5 +1,11 @@
 # @openai/chatkit
 
+## 1.4.0
+
+### Minor Changes
+
+- aa31766: Add entities.showComposerMenu option that renders an entity tag search trigger button in the composer.
+
 ## 1.3.0
 
 ### Minor Changes
