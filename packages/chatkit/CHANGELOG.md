@@ -1,5 +1,11 @@
 # @openai/chatkit
 
+## 1.5.0
+
+### Minor Changes
+
+- ec7afe0: Add composer.dictation option for composer voice input; disabled by default.
+
 ## 1.4.0
 
 ### Minor Changes
