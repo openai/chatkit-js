@@ -302,6 +302,19 @@ export type ComposerOption = {
    * @see {@link ModelOption}
    */
   models?: ModelOption[];
+
+  /**
+   * Dictation (voice input) settings for the composer.
+   * Disabled when not provided.
+   */
+  dictation?: {
+    /**
+     * Enable dictation.
+     *
+     * @default false
+     */
+    enabled: boolean;
+  };
 };
 
 /**
