@@ -1,5 +1,11 @@
 # @openai/chatkit
 
+## 1.6.0
+
+### Minor Changes
+
+- 8486dbd: Add `chatkit.deeplink` event
+
 ## 1.5.0
 
 ### Minor Changes
