@@ -30,6 +30,7 @@ const EVENT_HANDLER_MAP: {
   'chatkit.tool.change': 'onToolChange',
   'chatkit.ready': 'onReady',
   'chatkit.effect': 'onEffect',
+  'chatkit.deeplink': 'onDeeplink',
 };
 
 const EVENT_NAMES = Object.keys(EVENT_HANDLER_MAP) as (keyof ChatKitEvents)[];

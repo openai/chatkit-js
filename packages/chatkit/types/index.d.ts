@@ -1114,6 +1114,12 @@ export type ChatKitEvents = {
     data?: Record<string, unknown>;
   }>;
 
+  /** Emitted when a chatkit-link:// deeplink is clicked. */
+  'chatkit.deeplink': CustomEvent<{
+    name: string;
+    data?: Record<string, unknown>;
+  }>;
+
   /** Emitted when the assistant begins sending a response. */
   'chatkit.response.start': CustomEvent<void>;
 

@@ -29,6 +29,7 @@ type UseChatKitOptions = ChatKitOptions &
     onError: (event: { error: Error }) => void;
     onLog: (event: { name: string; data?: Record<string, unknown> }) => void;
     onEffect: (event: { name: string; data?: Record<string, unknown> }) => void;
+    onDeeplink: (event: { name: string; data?: Record<string, unknown> }) => void;
   }>;
 ```
 
