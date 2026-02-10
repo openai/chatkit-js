@@ -1,5 +1,16 @@
 # @openai/chatkit-react
 
+## 1.5.0
+
+### Minor Changes
+
+- 8486dbd: Add `onDeeplink` to `UseChatKitOptions`
+
+### Patch Changes
+
+- Updated dependencies [8486dbd]
+  - @openai/chatkit@1.6.0
+
 ## 1.4.3
 
 ### Patch Changes
