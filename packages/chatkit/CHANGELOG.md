@@ -1,5 +1,13 @@
 # @openai/chatkit
 
+## 1.7.0
+
+### Minor Changes
+
+- 7d28b4b: Add `border` prop to Card widgets
+- e4696e8: Added types for Table, Table.Row, and Table.Cell widget components
+- 0950ca4: ChatKit threads now support BasicRoot widgets, types updated to reflect this
+
 ## 1.6.0
 
 ### Minor Changes
