@@ -42,6 +42,7 @@ export type Card = {
   asForm?: boolean;
   children: WidgetComponent[];
   background?: string | ThemeColor;
+  border?: number | Border | Borders;
   size?: 'sm' | 'md' | 'lg' | 'full';
   padding?: number | string | Spacing;
   status?: WidgetStatus;
