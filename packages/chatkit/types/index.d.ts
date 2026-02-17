@@ -192,7 +192,10 @@ export type WidgetsOption = {
    */
   onAction?: (
     action: { type: string; payload?: Record<string, unknown> },
-    widgetItem: { id: string; widget: Widgets.Card | Widgets.ListView },
+    widgetItem: {
+      id: string;
+      widget: Widgets.Card | Widgets.ListView | Widgets.BasicRoot;
+    },
   ) => Promise<void>;
 };
 
