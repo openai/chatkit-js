@@ -48,5 +48,4 @@ jobs:
           version: pnpm changeset version
           publish: pnpm changeset publish
           createGithubReleases: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}  # Migrated from env var
