@@ -27,8 +27,10 @@ const EVENT_HANDLER_MAP: {
   'chatkit.thread.change': 'onThreadChange',
   'chatkit.thread.load.start': 'onThreadLoadStart',
   'chatkit.thread.load.end': 'onThreadLoadEnd',
+  'chatkit.tool.change': 'onToolChange',
   'chatkit.ready': 'onReady',
   'chatkit.effect': 'onEffect',
+  'chatkit.deeplink': 'onDeeplink',
 };
 
 const EVENT_NAMES = Object.keys(EVENT_HANDLER_MAP) as (keyof ChatKitEvents)[];
@@ -64,13 +66,17 @@ export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
 
       const controller = new AbortController();
       for (const eventName of EVENT_NAMES) {
-        el.addEventListener(eventName, (e) => {
-          const handlerName = EVENT_HANDLER_MAP[eventName];
-          const handler = control.handlers[handlerName];
-          if (typeof handler === 'function') {
-            handler(e.detail as any);
-          }
-        });
+        el.addEventListener(
+          eventName,
+          (e) => {
+            const handlerName = EVENT_HANDLER_MAP[eventName];
+            const handler = control.handlers[handlerName];
+            if (typeof handler === 'function') {
+              handler(e.detail as any);
+            }
+          },
+          { signal: controller.signal },
+        );
       }
       return () => {
         controller.abort();

@@ -21,6 +21,9 @@ export type WidgetComponent =
   | Input
   | Label
   | RadioGroup
+  | Table
+  | TableRow
+  | TableCell
   | Textarea
   | Transition;
 
@@ -42,6 +45,7 @@ export type Card = {
   asForm?: boolean;
   children: WidgetComponent[];
   background?: string | ThemeColor;
+  border?: number | Border | Borders;
   size?: 'sm' | 'md' | 'lg' | 'full';
   padding?: number | string | Spacing;
   status?: WidgetStatus;
@@ -245,6 +249,35 @@ export type Button = {
   uniform?: boolean;
   block?: boolean;
   disabled?: boolean;
+};
+
+type Table = {
+  type: 'Table';
+  key?: string;
+  id?: string;
+  children?: TableRow[];
+};
+
+type TableRow = {
+  type: 'Table.Row';
+  key?: string;
+  id?: string;
+  children?: TableCell[];
+  header?: boolean;
+};
+
+export type TableCell = {
+  type: 'Table.Cell';
+  key?: string;
+  id?: string;
+  children?: WidgetComponent[];
+  width?: number | string;
+  padding?: Spacing;
+  colSpan?: number;
+  rowSpan?: number;
+  align?: TableCellAlignValue;
+  vAlign?: TableCellAlignValue;
+  colSize?: TableColSize;
 };
 
 // Form Controls
@@ -494,6 +527,9 @@ type BaseTextProps = {
   truncate?: boolean;
   maxLines?: number;
 };
+
+type TableCellAlignValue = 'start' | 'center' | 'end';
+type TableColSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type WidgetIcon =
   | 'agent'

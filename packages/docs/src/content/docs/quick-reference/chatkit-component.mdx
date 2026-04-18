@@ -1,0 +1,42 @@
+---
+title: ChatKit (React)
+description: React wrapper that renders the `<openai-chatkit>` web component.
+---
+
+```tsx
+<ChatKit control={control} {...props} />
+```
+
+The `ChatKit` component takes the `control` object returned by [`useChatKit`](./use-chatkit/)
+and renders the `<openai-chatkit>` web component for you. It forwards any extra
+props to the underlying element, including standard DOM attributes and React
+event handlers.
+
+## Props
+
+:::note[Type snapshot]
+`ChatKitProps` extends `React.HTMLAttributes<OpenAIChatKit>` and adds the `control`
+object produced by the hook.
+:::
+
+```ts
+type ChatKitProps = React.HTMLAttributes<OpenAIChatKit> & {
+  control: ChatKitControl;
+};
+```
+
+- **`control`** — Required object from [`useChatKit`](./use-chatkit/). Provides
+  stable options, extracted event handlers, and the `setInstance` callback that
+  keeps the hook and component in sync. Pass it verbatim: `<ChatKit control={control} />`.
+- **`...props`** — Any additional props are spread onto `<openai-chatkit>`. Use
+  this for layout attributes (`className`, `style`), accessibility props
+  (`aria-*`).
+
+#### See
+
+[ChatKitControl](../../api/openai/chatkit-react/type-aliases/chatkitcontrol/)
+
+[OpenAIChatKit](../../api/openai/chatkit/interfaces/openaichatkit/)
+
+[useChatKit](../use-chatkit/)
+

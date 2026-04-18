@@ -17,6 +17,8 @@ const CHATKIT_METHOD_NAMES = Object.freeze([
   'setComposerValue',
   'fetchUpdates',
   'sendCustomAction',
+  'showHistory',
+  'hideHistory',
 ] as const);
 
 type ChatKitMethod = (typeof CHATKIT_METHOD_NAMES)[number];

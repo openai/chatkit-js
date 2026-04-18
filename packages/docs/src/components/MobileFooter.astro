@@ -1,30 +1,12 @@
 ---
-import { Icon } from '@astrojs/starlight/components';
 import LanguageSelect from '@astrojs/starlight/components/LanguageSelect.astro';
-import SocialIcons from '@astrojs/starlight/components/SocialIcons.astro';
+import SocialIcons from 'virtual:starlight/components/SocialIcons';
 import ThemeSelect from '@astrojs/starlight/components/ThemeSelect.astro';
-import { ParseStatus } from 'astro:schema';
-
-const additionalLinks = [
-  {
-    label: 'Chatkit.js',
-    href: 'https://github.com/openai/chatkit-js',
-    icon: 'github' as const,
-  },
-];
 ---
 
 <div class="mobile-preferences sl-flex">
   <div class="social-icons">
     <SocialIcons />
-    {
-      additionalLinks.map(({ label, href, icon }) => (
-        <a {href} target="_blank" rel="noopener noreferrer" class="sl-flex">
-          <Icon name={icon as any} />
-          <span>{label}</span>
-        </a>
-      ))
-    }
   </div>
   <ThemeSelect />
   <LanguageSelect />
@@ -60,12 +42,6 @@ const additionalLinks = [
       span {
         font-size: var(--sl-text-sm);
         margin-inline-start: 0.3rem;
-      }
-
-      @media (max-width: 72rem) {
-        span {
-          @apply sr-only;
-        }
       }
     }
     a:hover {

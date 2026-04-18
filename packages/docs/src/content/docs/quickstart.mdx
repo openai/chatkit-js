@@ -1,0 +1,71 @@
+---
+title: Quick start
+description: Bring ChatKit online with either React or vanilla JavaScript.
+---
+
+import { TabItem, Tabs } from '@astrojs/starlight/components';
+
+Paste the ChatKit script, render the component, and your chat UI is ready. Toggle between React and vanilla JavaScript below to see the full snippet for each setup.
+
+```html
+<!-- Add once to your root HTML -->
+<script
+  src="https://cdn.platform.openai.com/deployments/chatkit/chatkit.js"
+  async
+></script>
+```
+
+<Tabs syncKey="quickstart-target">
+<TabItem label="React">
+
+```bash
+npm install @openai/chatkit-react
+```
+
+```tsx
+import { ChatKit, useChatKit } from '@openai/chatkit-react';
+
+export function SupportChat() {
+  const { control } = useChatKit({
+    api: {
+      url: 'http://localhost:8000/chatkit',
+      domainKey: 'local-dev',
+    },
+  });
+
+  return <ChatKit control={control} className="h-[600px] w-[360px]" />;
+}
+```
+
+</TabItem>
+<TabItem label="Vanilla JS">
+
+```bash
+npm install @openai/chatkit
+```
+
+```html
+<div id="chat-root"></div>
+<script type="module">
+  import '@openai/chatkit';
+
+  const chatkit = document.createElement('openai-chatkit');
+
+  chatkit.setOptions({
+    api: {
+      url: 'http://localhost:8000/chatkit',
+      domainKey: 'local-dev',
+    },
+  });
+
+  document.getElementById('chat-root')?.append(chatkit);
+</script>
+```
+
+</TabItem>
+</Tabs>
+
+:::note[Need a backend?]
+These snippets assume a self-hosted ChatKit runtime (for example via the [ChatKit Python SDK quick start](https://openai.github.io/chatkit-python/quickstart/)). For the managed service, head to the [ChatKit guide](https://platform.openai.com/docs/guides/chatkit).
+:::
+

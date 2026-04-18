@@ -40,29 +40,45 @@ const typeDocConfig: StarlightTypeDocOptions['typeDoc'] = {
 
 const sidebar = [
   { label: 'Overview', link: '/' },
+  { label: 'Quick start', link: '/quickstart' },
+  { label: 'Customize', link: '/customize' },
   {
-    label: 'Guides',
+    label: 'Quick API Reference',
     items: [
-      { label: 'Authentication', link: '/guides/authentication' },
       {
-        label: 'Theming & Customization',
-        link: '/guides/theming-customization',
+        label: 'ChatKitOptions',
+        link: 'api/openai/chatkit/type-aliases/chatkitoptions/',
       },
-      { label: 'Methods', link: '/guides/methods' },
-      { label: 'Events', link: '/guides/events' },
-      { label: 'Client Tools', link: '/guides/client-tools' },
-      { label: 'Entity tagging', link: '/guides/entities' },
-      { label: 'Custom Backends', link: '/guides/custom-backends' },
-      { label: 'Localization', link: '/guides/localization' },
+      {
+        label: 'OpenAIChatKit (Web Component)',
+        link: 'api/openai/chatkit/interfaces/openaichatkit/',
+      },
+      {
+        label: 'useChatKit (React hook)',
+        link: 'quick-reference/use-chatkit/',
+      },
+      {
+        label: 'ChatKit (React component)',
+        link: 'quick-reference/chatkit-component/',
+      },
     ],
   },
   chatkitTypeDocSidebarGroup,
   {
-    label: 'Custom Backends',
+    label: 'Self-hosted backend',
     items: [
       {
-        label: 'Python SDK',
+        label: 'ChatKit Python SDK',
         link: 'https://openai.github.io/chatkit-python',
+      },
+    ],
+  },
+  {
+    label: 'OpenAI-hosted backend',
+    items: [
+      {
+        label: 'Managed ChatKit Docs',
+        link: 'https://platform.openai.com/docs/guides/chatkit',
       },
     ],
   },
@@ -89,13 +105,13 @@ export default defineConfig({
     starlight({
       plugins: [
         chatkitStarlightTypeDoc({
-          sidebar: { label: 'API Reference' },
+          sidebar: { label: 'Complete API reference', collapsed: true },
           entryPoints: ['../chatkit', '../chatkit-react'],
           tsconfig: '../chatkit/tsconfig.json',
           typeDoc: typeDocConfig,
         }),
       ],
-      title: 'OpenAI Agent Embeds',
+      title: 'OpenAI ChatKit',
       components: {
         SiteTitle: './src/components/Title.astro',
         PageTitle: './src/components/PageTitle.astro',
@@ -103,6 +119,13 @@ export default defineConfig({
         Sidebar: './src/components/Sidebar.astro',
         MobileMenuFooter: './src/components/MobileFooter.astro',
       },
+      social: [
+        {
+          icon: 'github',
+          label: 'ChatKit.js',
+          href: 'https://github.com/openai/chatkit-js',
+        },
+      ],
       locales: {
         root: {
           label: 'English',
