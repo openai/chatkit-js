@@ -41,28 +41,8 @@ export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
   function ChatKit({ control, ...htmlProps }, forwardedRef) {
     const ref = React.useRef<OpenAIChatKit | null>(null);
 
+    // Subscribe before applying options, which can emit events immediately.
     React.useLayoutEffect(() => {
-      const el = ref.current;
-      if (!el) return;
-
-      // Fast path: element is already defined
-      if (customElements.get('openai-chatkit')) {
-        el.setOptions(control.options);
-        return;
-      }
-      // Fallback path: wait for definition
-      let active = true;
-      customElements.whenDefined('openai-chatkit').then(() => {
-        if (active) {
-          el.setOptions(control.options);
-        }
-      });
-      return () => {
-        active = false;
-      };
-    }, [control.options]);
-
-    React.useEffect(() => {
       const el = ref.current;
       if (!el) return;
 
@@ -84,6 +64,27 @@ export const ChatKit = React.forwardRef<OpenAIChatKit, ChatKitProps>(
         controller.abort();
       };
     }, [control.handlers]);
+
+    React.useLayoutEffect(() => {
+      const el = ref.current;
+      if (!el) return;
+
+      // Fast path: element is already defined
+      if (customElements.get('openai-chatkit')) {
+        el.setOptions(control.options);
+        return;
+      }
+      // Fallback path: wait for definition
+      let active = true;
+      customElements.whenDefined('openai-chatkit').then(() => {
+        if (active) {
+          el.setOptions(control.options);
+        }
+      });
+      return () => {
+        active = false;
+      };
+    }, [control.options]);
 
     return (
       <openai-chatkit
