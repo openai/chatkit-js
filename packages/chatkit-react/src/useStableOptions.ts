@@ -94,7 +94,7 @@ export function withLatestFunctionWrappers<T extends Record<string, any>>(ref: {
       path.length = base;
       return out as any;
     }
-    if (v && typeof v === 'object') {
+    if (isPlainObjectOrArray(v) && !Array.isArray(v)) {
       const base = path.length;
       const out: Record<string, any> = {};
       for (const k of Object.keys(v)) {
