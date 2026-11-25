@@ -465,8 +465,8 @@ export type StartScreenPrompt = {
  */
 
 /**
- * Attachment associated with a user message. When passed to `sendUserMessage` or
- * `setComposerValue`, it must already be uploaded by your server.
+ * Attachment already uploaded by your custom server. For OpenAI-hosted workflows,
+ * use `setComposerValue({ files })` to upload files through ChatKit's composer.
  */
 export type Attachment =
   | {
@@ -1044,7 +1044,12 @@ export interface OpenAIChatKit extends HTMLElement {
     /** Use instead of `text` when sending structured content such as entity tags. */
     content?: UserMessageContent[];
     reply?: string;
-    /** Attachment associated with the user message. It must already be uploaded by your server. */
+    /**
+     * Attachments previously uploaded by your custom server. This option is not
+     * supported for OpenAI-hosted workflows. For hosted workflows, use
+     * `setComposerValue({ files })` to upload and display files in the composer,
+     * then send the message from the composer.
+     */
     attachments?: Attachment[];
     newThread?: boolean;
     /**
@@ -1068,7 +1073,16 @@ export interface OpenAIChatKit extends HTMLElement {
      * Uploads the provided files and attaches them to the composer input. Use this option
      * instead of `attachments` when the files still need to be sent to the server.
      * Each file must already carry the correct MIME type metadata to be uploaded and
-     * rendered correctly.
+     * rendered correctly. This is the attachment upload path for OpenAI-hosted
+     * workflows. It prepares the composer without sending a message.
+     *
+     * @example
+     * ```ts
+     * await chatkit.setComposerValue({
+     *   text: 'Describe this image.',
+     *   files: [imageFile],
+     * });
+     * ```
      */
     files?: File[];
     /**
