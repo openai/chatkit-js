@@ -36,7 +36,7 @@ Just add the ChatKit component, give it a client token, and customize the chat e
        session = openai.chatkit.sessions.create({
          # ...
        })
-       return { client_secret: session.client_secret }
+       return {"client_secret": session.client_secret}
    ```
 
 2. Install the React bindings
