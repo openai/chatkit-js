@@ -39,13 +39,7 @@ Just add the ChatKit component, give it a client token, and customize the chat e
        return { client_secret: session.client_secret }
    ```
 
-2. Install the React bindings
-
-   ```bash
-   npm install @openai/chatkit-react
-   ```
-
-3. Add the ChatKit JS script to your page
+2. Add the ChatKit JS script to your page (both integrations use it).
 
    ```html
    <script
@@ -54,7 +48,56 @@ Just add the ChatKit component, give it a client token, and customize the chat e
    ></script>
    ```
 
-4. Render ChatKit
+After the shared setup, choose one of the following frontend integrations.
+The web component works without React or a frontend framework.
+
+### Vanilla JavaScript
+
+Use the `openai-chatkit` custom element directly in an HTML page. Wait until the
+asynchronously loaded script registers it before calling `setOptions`.
+
+```html
+<openai-chatkit id="chatkit" style="display: block; height: 600px; width: 320px;"></openai-chatkit>
+<script type="module">
+  await customElements.whenDefined('openai-chatkit');
+  const chatkit = document.getElementById('chatkit');
+
+  chatkit.setOptions({
+    api: {
+      async getClientSecret(existing) {
+        if (existing) {
+          // implement session refresh on your server
+        }
+
+        const res = await fetch('/api/chatkit/session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!res.ok) {
+          throw new Error('Could not get a ChatKit session');
+        }
+        const { client_secret } = await res.json();
+        return client_secret;
+      },
+    },
+  });
+</script>
+```
+
+For TypeScript projects, install `@openai/chatkit` for the web component's
+type declarations. React bindings are not required.
+
+### React
+
+1. Install the React bindings.
+
+   ```bash
+   npm install @openai/chatkit-react
+   ```
+
+2. Render ChatKit.
 
    ```tsx
    import { ChatKit, useChatKit } from '@openai/chatkit-react';
