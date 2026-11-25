@@ -15,3 +15,21 @@ Add `@openai/chatkit` to `compilerOptions.types` in your `tsconfig.json` when yo
   }
 }
 ```
+
+## Widget icons
+
+The `Widgets.WidgetIcon` type lists the built-in icon names accepted by widgets,
+including `clock` and `dot`. For other icons, use a prefixed
+[Lucide icon name](https://lucide.dev/icons/), such as `lucide:settings`,
+`lucide:play`, or `lucide:music`. Vendor-prefixed icon names are also accepted
+by the server SDK; their availability depends on the deployment.
+
+```ts
+import type { Widgets } from '@openai/chatkit';
+
+const button: Widgets.Button = {
+  type: 'Button',
+  iconStart: 'lucide:settings',
+  label: 'Settings',
+};
+```

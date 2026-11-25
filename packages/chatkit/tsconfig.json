@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "types",
+    "rootDir": ".",
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
@@ -13,5 +13,5 @@
     "skipLibCheck": false,
     "noEmit": true
   },
-  "include": ["types"]
+  "include": ["types", "tests"]
 }

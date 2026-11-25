@@ -1,3 +1,5 @@
+import type { ChatKitIcon } from './index';
+
 export type WidgetRoot = Card | ListView | BasicRoot;
 
 export type WidgetComponent =
@@ -531,67 +533,10 @@ type BaseTextProps = {
 type TableCellAlignValue = 'start' | 'center' | 'end';
 type TableColSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-export type WidgetIcon =
-  | 'agent'
-  | 'analytics'
-  | 'atom'
-  | 'batch'
-  | 'bolt'
-  | 'book-open'
-  | 'book-closed'
-  | 'book-clock'
-  | 'bug'
-  | 'calendar'
-  | 'chart'
-  | 'check'
-  | 'check-circle'
-  | 'check-circle-filled'
-  | 'chevron-left'
-  | 'chevron-right'
-  | 'circle-question'
-  | 'compass'
-  | 'confetti'
-  | 'cube'
-  | 'desktop'
-  | 'document'
-  | 'dot'
-  | 'dots-horizontal'
-  | 'dots-vertical'
-  | 'empty-circle'
-  | 'external-link'
-  | 'globe'
-  | 'keys'
-  | 'lab'
-  | 'images'
-  | 'info'
-  | 'lifesaver'
-  | 'lightbulb'
-  | 'mail'
-  | 'map-pin'
-  | 'maps'
-  | 'mobile'
-  | 'name'
-  | 'notebook'
-  | 'notebook-pencil'
-  | 'page-blank'
-  | 'phone'
-  | 'play'
-  | 'plus'
-  | 'profile'
-  | 'profile-card'
-  | 'reload'
-  | 'star'
-  | 'star-filled'
-  | 'search'
-  | 'sparkle'
-  | 'sparkle-double'
-  | 'square-code'
-  | 'square-image'
-  | 'square-text'
-  | 'suitcase'
-  | 'settings-slider'
-  | 'user'
-  | 'wreath'
-  | 'write'
-  | 'write-alt'
-  | 'write-alt2';
+/**
+ * Icon names accepted by widgets. Includes ChatKit's built-in and Lucide icons,
+ * the widget-specific dot, and vendor-prefixed names accepted by the server SDK.
+ * Lucide names use the `lucide:<icon-name>` form.
+ * @see https://lucide.dev/icons/
+ */
+export type WidgetIcon = ChatKitIcon | 'dot' | `vendor:${string}`;
